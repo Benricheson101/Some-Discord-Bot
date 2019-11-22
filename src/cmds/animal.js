@@ -67,7 +67,7 @@ module.exports.run = async (client, message, args) => {
 			});
 		wolf.image = img.urls.regular;
 		wolf.fact = "insert fact here";
-		wolf.credits = `Photo by ${img.user.name} on Unsplash.`;
+		wolf.info = `Photo by ${img.user.name} on Unsplash.`;
 		//console.log(img);
 		await generateEmbed(wolf);
 		break;
@@ -83,7 +83,7 @@ module.exports.run = async (client, message, args) => {
 	default: {
 		await generateEmbed({
 			image: "https://http.cat/404.jpg",
-			fact: "I don't have that animal yet!"
+			info: "I don't have that animal yet!"
 		});
 		break;
 	}
@@ -101,7 +101,7 @@ module.exports.run = async (client, message, args) => {
 			.setColor("GREEN")
 			.setImage(animal.image)
 			.setFooter(animal.fact);
-		animal.credits ? embed.setAuthor(animal.credits) : "";
+		animal.info ? embed.setAuthor(animal.info) : "";
 		await message.channel.stopTyping(true);
 		return message.channel.send(embed);
 	}
