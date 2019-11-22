@@ -72,6 +72,14 @@ module.exports.run = async (client, message, args) => {
 		await generateEmbed(wolf);
 		break;
 	}
+	case ("red-panda"):
+	case ("redpanda"): {
+		await generateEmbed({
+			image: (await SA.get("https://some-random-api.ml/img/red_panda")).body.link,
+			fact: "These guys are so cute"
+		});
+		break;
+	}
 	default: {
 		await generateEmbed({
 			image: "https://http.cat/404.jpg",
