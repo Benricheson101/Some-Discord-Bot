@@ -44,8 +44,7 @@ module.exports.run = async (client, message, args) => {
 	}
 	case ("duck"): {
 		await generateEmbed({
-			image: (await SA.get("https://random-d.uk/api/v2/random")).body.url,
-			fact: "Quack"
+			image: (await SA.get("https://random-d.uk/api/v2/random")).body.url
 		});
 		break;
 	}
@@ -61,22 +60,27 @@ module.exports.run = async (client, message, args) => {
 		let img = await unsplash.photos.getRandomPhoto({
 			query: "wolf"
 		})
+			.catch((e) => { throw new Error(e) })
 			.then((res) => res.json())
 			.then((json) => {
 				return json;
 			});
 		wolf.image = img.urls.regular;
-		wolf.fact = "insert fact here";
 		wolf.info = `Photo by ${img.user.name} on Unsplash.`;
-		//console.log(img);
 		await generateEmbed(wolf);
 		break;
 	}
 	case ("red-panda"):
 	case ("redpanda"): {
 		await generateEmbed({
-			image: (await SA.get("https://some-random-api.ml/img/red_panda")).body.link,
-			fact: "These guys are so cute"
+			image: (await SA.get("https://some-random-api.ml/img/red_panda")).body.link
+		});
+		break;
+	}
+	case ("suspense"):
+	case ("panda"): {
+		await generateEmbed({
+			image: (await SA.get("https://some-random-api.ml/img/panda")).body.link
 		});
 		break;
 	}
@@ -93,29 +97,18 @@ module.exports.run = async (client, message, args) => {
 	 * @param {Object} animal - Animal object
 	 * @param {string} animal.image - The picture of an animal
 	 * @param {string} animal.fact - Animal fact
+	 * @param {string} animal.info - Any additional info (error message, picture credit, etc.)
 	 * @returns {Promise<void>}
 	 */
 	async function generateEmbed (animal) {
 		await message.channel.startTyping();
 		let embed = new (require("discord.js")).RichEmbed()
 			.setColor("GREEN")
-			.setImage(animal.image)
-			.setFooter(animal.fact);
+			.setImage(animal.image);
+		animal.fact ? embed.setFooter(animal.fact) : "";
 		animal.info ? embed.setAuthor(animal.info) : "";
 		await message.channel.stopTyping(true);
 		return message.channel.send(embed);
 	}
-
-	// Unsplash error handler
-	unsplash.users.profile("naoufal")
-		.catch((err) => {
-			message.channel.send(new (require("discord.js")).RichEmbed()
-				.setAuthor("something happened")
-				.setTitle(err.message)
-				.setDescription(`\`\`\`js\n${(err.stack).length >= 2048 ? (err.stack).substring(0, 2000) + " content too long..." : err.stack}\`\`\``)
-				.setColor("DARK_RED")
-				.setTimestamp()
-			)
-		});
 };
 
