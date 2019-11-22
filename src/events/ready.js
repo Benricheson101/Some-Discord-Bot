@@ -9,5 +9,5 @@ module.exports = async (client) => {
 		status: "dnd",
 	});
 
-	//await client.user.presence.
+	await client.channels.get("646109408446775376").send("I am online!");
 };
