@@ -5,8 +5,8 @@ const asyncExec = promisify(exec);
 module.exports.config = {
 	name: "deploy",
 	aliases: [],
-	ownerOnly: false,
-	guildOnly: false
+	ownerOnly: true,
+	guildOnly: true
 };
 
 
@@ -14,6 +14,7 @@ module.exports.config = {
 module.exports.run = async (client, message, args) => {
 	let m = await message.channel.send("Deploy command received...")
 	console.log("Deploy command received...")
+	await client.channels.get("646109408446775376").send("Update queued...")
 		.then(() => {
 			m.edit("Updating code...");
 			console.log("Updating code from Git");
