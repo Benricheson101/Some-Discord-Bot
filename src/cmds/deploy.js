@@ -1,19 +1,17 @@
-const { promisify } = require('util');
-const { exec } = require('child_process');
+const { promisify } = require("util");
+const { exec } = require("child_process");
 const asyncExec = promisify(exec);
 
 module.exports.config = {
 	name: "deploy",
 	aliases: [],
 	ownerOnly: true,
-	guildOnly: true
+	guildOnly: false
 };
 
-
-
 module.exports.run = async (client, message, args) => {
-	let m = await message.channel.send("Deploy command received...")
-	console.log("Deploy command received...")
+	let m = await message.channel.send("Deploy command received...");
+	console.log("Deploy command received...");
 	await client.channels.get("646109408446775376").send("Update queued...")
 		.then(() => {
 			m.edit("Updating code...");
@@ -31,7 +29,7 @@ module.exports.run = async (client, message, args) => {
 		.then((x22) => {
 			console.log("Shutting down...");
 			m.edit("Shutting down...");
-			return asyncExec("process.exit(0)")
-		})
+			return process.exit(0);
+		});
 };
 
