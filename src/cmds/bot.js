@@ -34,6 +34,13 @@ module.exports.run = async (client, message, args) => {
 			});
 		break;
 	}
+	case ("ping"): {
+		await message.channel.send("Loading...")
+			.then((m) => {
+				m.edit(`Pong! The latency is \`${m.createdTimestamp-message.createdTimestamp}ms\`. The API response time is \`${Math.round(client.ping)}ms\``)
+			});
+		break;
+	}
 	default: {
 		// bot info embed
 		message.channel.send(new RichEmbed()
