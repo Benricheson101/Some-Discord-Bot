@@ -1,6 +1,5 @@
 const SA = require("superagent");
-const Unsplash = require("unsplash-js");
-const unsplash = new Unsplash.default({
+const unsplash = new (require("unsplash-js")).default({
 	accessKey: process.env.UNSPLASHACCESSKEY
 });
 
