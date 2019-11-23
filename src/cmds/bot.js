@@ -53,8 +53,8 @@ module.exports.run = async (client, message, args) => {
 					.addField("Owner", "Ben.#0002", true)
 					.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
 
-					.addField("Edit Time", `\`${m.createdTimestamp - message.createdTimestamp}ms\``, true)
-					.addField("API Response Time", `\`${Math.round(client.ping)}\``, true)
+					.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
+					.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
 				);
 			}
 	);
