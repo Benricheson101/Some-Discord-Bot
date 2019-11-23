@@ -1,7 +1,7 @@
 module.exports.errors = {
-	"guildOnly": "This command cannot be used in DMs. Please try again in a server.",
-	"noperms": "You do not have permission to use this command.",
-	"generic": "An unknown error has occurred. Please try again!"
+	guildOnly: "This command cannot be used in DMs. Please try again in a server.",
+	noperms: "You do not have permission to use this command.",
+	generic: "An unknown error has occurred. Please try again!"
 };
 
 module.exports.supers = [
@@ -9,7 +9,11 @@ module.exports.supers = [
 ];
 
 module.exports.config = {
-	"prefix": ">",
+	prefix: ">",
 	//"mentionPrefix": true,
-	"logChannel": "646109408446775376" // cId
+	logChannel: "646109408446775376" // cId
+};
+
+module.exports.info = {
+	repo: "https://github.com/Benricheson101/Some-Discord-Bot/tree/production",
 };

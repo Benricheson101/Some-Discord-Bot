@@ -18,15 +18,15 @@ module.exports.run = async (client, message, args) => {
 			console.log("Updating code from Git");
 			return asyncExec("git fetch origin && git reset --hard origin/production");
 		})
-		.then((x) => {
+		.then(() => {
 			console.log("Updating NPM modules");
 			m.edit("Updating NPM modules...");
 			return asyncExec("npm i --production");
 		})
-		.then((x) => {
+		.then(() => {
 			return asyncExec("git rev-parse HEAD");
 		})
-		.then((x22) => {
+		.then(() => {
 			console.log("Shutting down...");
 			m.edit("Shutting down...");
 			return process.exit(0);

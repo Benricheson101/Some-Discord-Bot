@@ -12,8 +12,7 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-
-	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <fox/dog/cat/duck>\``);
+	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <fox/dog/cat/duck/koala/wolf/panda/redpanda>\``);
 
 	switch (args[0]) {
 	case ("foxxo"):
@@ -111,4 +110,3 @@ module.exports.run = async (client, message, args) => {
 		return message.channel.send(embed);
 	}
 };
-

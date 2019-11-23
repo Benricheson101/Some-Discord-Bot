@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js"
   },
+  "homepage": "https://github.com/Benricheson101/Some-Discord-Bot/tree/production",
   "author": "",
   "license": "ISC",
   "dependencies": {
