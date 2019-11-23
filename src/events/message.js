@@ -1,5 +1,6 @@
 module.exports = async (client, message) => {
 	if (message.author.bot) return;
+	if (message.content === "!awoo") return message.channel.send(":eyes:"); // easter egg
 	if (message.content.indexOf(CONSTANTS.config.prefix) !== 0) return;
 	//if (message.guild.id === "636384678185795645") return;
 
