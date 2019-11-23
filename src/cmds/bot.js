@@ -37,22 +37,29 @@ module.exports.run = async (client, message, args) => {
 	case ("ping"): {
 		await message.channel.send("Loading...")
 			.then((m) => {
-				m.edit(`Pong! The latency is \`${m.createdTimestamp-message.createdTimestamp}ms\`. The API response time is \`${Math.round(client.ping)}ms\``)
+				m.edit(`Pong! The latency is \`${m.createdTimestamp - message.createdTimestamp}ms\`. The API response time is \`${Math.round(client.ping)}ms\``);
 			});
 		break;
 	}
 	default: {
 		// bot info embed
-		message.channel.send(new RichEmbed()
-			.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-			.setColor("DARK_BLUE")
-			.setTimestamp()
-			.addField("Library", "[Discord.JS](https://discord.js.org/)", true)
-			.addField("Owner", "Ben.#0002", true)
-			.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
-		);
-		break;
-	}
-	}
-};
+		message.channel.send("Loading...")
+			.then((m) => {
+				m.edit(new RichEmbed()
+					.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+					.setColor("DARK_BLUE")
+					.setTimestamp()
+					.addField("Library", "[Discord.JS](https://discord.js.org/)", true)
+					.addField("Owner", "Ben.#0002", true)
+					.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
+
+					.addField("Edit Time", `\`${m.createdTimestamp - message.createdTimestamp}ms\``, true)
+					.addField("API Response Time", `\`${Math.round(client.ping)}\``, true)
+				);
+			}
+	);
+			break;
+		}
+		}
+	};
 
