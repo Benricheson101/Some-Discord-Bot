@@ -74,11 +74,7 @@ module.exports.run = async (client, message, args) => {
 
 		try {
 			const code = args.slice(1).join(" ");
-			let evaled = eval(code)
-				.catch((e) => {
-					message.channel.send(`\`\`\`js\n${e}\`\`\``);
-				});
-
+			let evaled = eval(code);
 			if (typeof evaled !== "string") {
 				evaled = require("util").inspect(evaled);
 			}
