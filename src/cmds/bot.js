@@ -144,7 +144,11 @@ module.exports.run = async (client, message, args) => {
 		 * @returns {Promise<void>}
 		 */
 		async function generateEmbed (msg) {
-			if (typeof generateEmbed.message == "undefined") generateEmbed.message.push(`- ${msg}`);
+			if (typeof generateEmbed.message == "undefined") {
+				generateEmbed.message = [];
+				generateEmbed.message.push(`- ${msg}`);
+			}
+			generateEmbed.message.push(`- ${msg}`);
 			let embed = new RichEmbed()
 				.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}`)
