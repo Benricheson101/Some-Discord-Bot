@@ -61,6 +61,51 @@ module.exports.run = async (client, message, args) => {
 			});
 		break;
 	}
+	case ("eval"): {
+		function clean (text) {
+			if (text.includes(client.token)) text.replace(client.token, "nice try");
+			if (typeof (text) === "string") {
+				text = text.substring(0, 1000);
+				return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+			}
+			text = text.substring(0, 1000);
+			return text;
+		}
+
+		try {
+			const code = args.join(" ");
+
+			//let evaled = eval(`(async () => { ${code} })()`)
+			let evaled = eval(code)
+				.catch((e) => {
+					message.channel.send(`\`\`\`js\n${e}\`\`\``);
+				});
+
+			if (typeof evaled !== "string") {
+				evaled = require("util").inspect(evaled);
+			}
+
+			let successEmbed = new RichEmbed()
+				.setAuthor(message.author.username, message.author.icon_url)
+				.setTitle("JavaScript Eval Success!")
+				.setColor("GREEN")
+				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
+				.addField("Result:", `\`\`\`xl\n${clean(evaled)}\`\`\``)
+				.setTimestamp();
+			message.channel.send(successEmbed);
+
+		} catch (err) {
+			let errorEmbed = new RichEmbed()
+				.setAuthor(message.author.username, message.author.icon_url)
+				.setTitle("JavaScript Eval Error!")
+				.setColor("DARK_RED")
+				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
+				.addField("Error:", `\`\`\`js\n${clean(err.stack)}\`\`\``)
+				.setTimestamp();
+			message.channel.send(errorEmbed);
+		}
+		break;
+	}
 	default: {
 		// bot info embed
 		message.channel.send("Loading...")
