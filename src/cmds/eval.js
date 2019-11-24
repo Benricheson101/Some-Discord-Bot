@@ -6,5 +6,5 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	message.channel.send(":airplane_departure: Moved to `>bot eval`")
+	message.channel.send(":airplane_departure: Moved to `>bot eval`");
 };
