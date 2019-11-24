@@ -48,8 +48,7 @@ module.exports.run = async (client, message, args) => {
 	}
 	case ("koala"): {
 		await generateEmbed({
-			image: (await SA.get("https://some-random-api.ml/img/koala")).body.link,
-			fact: (await SA.get("https://some-random-api.ml/fact/koala")).body.link
+			image: (await SA.get("https://some-random-api.ml/img/koala")).body.link
 		});
 		break;
 	}
