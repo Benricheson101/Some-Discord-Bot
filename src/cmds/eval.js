@@ -1,6 +1,6 @@
-const vm = require("vm");
-const { RichEmbed } = require("discord.js");
-const { inspect } = require("util");
+//const vm = require("vm");
+//const { RichEmbed } = require("discord.js");
+//const { inspect } = require("util");
 
 module.exports.config = {
 	name: "eval",
@@ -10,7 +10,9 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	function clean (text) {
+	message.channel.send(":airplane_departure: Moved to `>bot eval`")
+};
+	/*function clean (text) {
 		if (text.includes(client.token)) text.replace(client.token, "nice try");
 		if (typeof (text) === "string") {
 			text = text.substring(0, 1000);
@@ -23,7 +25,8 @@ module.exports.run = async (client, message, args) => {
 	try {
 		const code = args.join(" ");
 
-		let evaled = eval(`(async () => { ${code} })()`)
+		//let evaled = eval(`(async () => { ${code} })()`)
+		let evaled = eval(code)
 			.catch((e) => {
 				message.channel.send(`\`\`\`js\n${e}\`\`\``);
 			});
@@ -51,6 +54,7 @@ module.exports.run = async (client, message, args) => {
 			.setTimestamp();
 		message.channel.send(errorEmbed);
 	}
+};*/
 
 	/*	try {
 			function parseCode (data) {
@@ -110,5 +114,5 @@ module.exports.run = async (client, message, args) => {
 			console.error(e);
 			throw new Error(e);
 		}*/
-};
+//};
 
