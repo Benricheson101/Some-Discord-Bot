@@ -73,9 +73,8 @@ module.exports.run = async (client, message, args) => {
 		}
 
 		try {
+			args.slice();
 			const code = args.join(" ");
-
-			//let evaled = eval(`(async () => { ${code} })()`)
 			let evaled = eval(code)
 				.catch((e) => {
 					message.channel.send(`\`\`\`js\n${e}\`\`\``);
