@@ -112,10 +112,10 @@ module.exports.run = async (client, message, args) => {
 	case ("deploy"): {
 		if (process.env.NODE_ENV !== "production" && args[1] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
 		let m = await message.channel.send("Deploy command received...");
-		await generateEmbed("Deploy command received.");
-		let logMsg = await client.channels.get(CONSTANTS.config.logChannel);
+		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Deploy command received...");
+		await generateEmbed("Deploy command received");
 		// await m.edit("Updating code...");
-		await generateEmbed("Updating code...");
+		await generateEmbed("Updating code");
 		asyncExec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
 			.then(async () => {
 				// await m.edit("Installing new NPM packages...");
@@ -124,7 +124,7 @@ module.exports.run = async (client, message, args) => {
 			})
 			.then(async () => {
 				// await m.edit("Shutting down...");
-				await generateEmbed("Shutting down...");
+				await generateEmbed("Shutting down");
 				return process.exit(0); // Stop the bot; Glitch should automatically restart the bot after it is shut down
 			});
 
@@ -154,6 +154,7 @@ module.exports.run = async (client, message, args) => {
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}`)
 				.setColor("RANDOM")
 				.setTimestamp();
+			console.log(msg);
 			await m.edit(embed);
 			await logMsg.edit(embed);
 		}
