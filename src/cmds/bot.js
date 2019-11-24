@@ -114,44 +114,29 @@ module.exports.run = async (client, message, args) => {
 		let m = await message.channel.send("Deploy command received...");
 		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Deploy command received...");
 		await generateEmbed("Deploy command received");
-		// await m.edit("Updating code...");
+
 		await generateEmbed("Updating code");
 		asyncExec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
 			.then(async () => {
-				// await m.edit("Installing new NPM packages...");
 				await generateEmbed("Installing new NPM packages");
 				return asyncExec("npm i --production"); // Installing any new dependencies
 			})
 			.then(async () => {
-				// await m.edit("Shutting down...");
 				await generateEmbed("Shutting down");
 				return process.exit(0); // Stop the bot; Glitch should automatically restart the bot after it is shut down
 			});
 
 		/**
-		 * Sends messages
-		 * @param {string} msg - The message to log.
-		 */
-		async function log (msg) {
-			await m.edit(msg);
-			console.log(msg);
-			client.channels.get(CONSTANTS.config.logChannel).send(msg);
-		}
-
-		/**
 		 * Use an embed for deploy command logs
-		 * @param msg
+		 * @param {string} msg - The message to be logged
 		 * @returns {Promise<void>}
 		 */
 		async function generateEmbed (msg) {
-			if (typeof generateEmbed.message == "undefined") {
-				generateEmbed.message = [];
-				generateEmbed.message.push(`- ${msg}`);
-			}
+			if (typeof generateEmbed.message == "undefined") generateEmbed.message = [];
 			generateEmbed.message.push(`- ${msg}`);
 			let embed = new RichEmbed()
 				.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}`)
+				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM")
 				.setTimestamp();
 			console.log(msg);
