@@ -73,8 +73,7 @@ module.exports.run = async (client, message, args) => {
 		}
 
 		try {
-			args.slice(1);
-			const code = args.join(" ");
+			const code = args.slice(1).join(" ");
 			let evaled = eval(code)
 				.catch((e) => {
 					message.channel.send(`\`\`\`js\n${e}\`\`\``);
