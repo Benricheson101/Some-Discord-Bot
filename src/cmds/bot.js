@@ -80,6 +80,7 @@ module.exports.run = async (client, message, args) => {
 			text = text.substring(0, 1000);
 			return text;
 		}
+
 		try {
 			const code = args.slice(1).join(" ");
 			let evaled = eval(code);
@@ -128,16 +129,14 @@ module.exports.run = async (client, message, args) => {
 				return process.exit(0);
 			});*/
 		if (process.env.NODE_ENV !== "production" && args[1] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
-		await message.channel.send("Deploy command received...")
-			.then(async (m) => {
-				await m.edit("Updating code...");
-				return asyncExec("git fetch origin && git reset --hard origin/production"); // Pull new code from the production branch on GitHub
-			})
-			.then(async (m) => {
+		let m = await message.channel.send("Deploy command received...");
+		await m.edit("Updating code...");
+		asyncExec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
+			.then(async () => {
 				await m.edit("Installing new NPM packages...");
 				return asyncExec("npm i --production"); // Installing any new dependencies
 			})
-			.then(async (m) => {
+			.then(async () => {
 				await m.edit("Shutting down...");
 				return process.exit(0); // Stop the bot; Glitch should automatically restart the bot after it is shut down
 			});
@@ -157,22 +156,22 @@ module.exports.run = async (client, message, args) => {
 		// bot info embed
 		message.channel.send("Loading...")
 			.then((m) => {
-				m.edit(new RichEmbed()
-					.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-					.setColor("DARK_BLUE")
-					.setTimestamp()
-					.addField("Library", "[Discord.JS](https://discord.js.org/)", true)
-					.addField("Owner", "Ben.#0002", true)
-					.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
+					m.edit(new RichEmbed()
+						.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+						.setColor("DARK_BLUE")
+						.setTimestamp()
+						.addField("Library", "[Discord.JS](https://discord.js.org/)", true)
+						.addField("Owner", "Ben.#0002", true)
+						.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
 
-					.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
-					.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
-					.addField("Version", (require("../../package.json")).version, true)
-				);
-			}
-	);
-			break;
-		}
-		}
-	};
+						.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
+						.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
+						.addField("Version", (require("../../package.json")).version, true)
+					);
+				}
+			);
+		break;
+	}
+	}
+};
 
