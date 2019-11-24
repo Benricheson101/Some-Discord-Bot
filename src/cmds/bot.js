@@ -73,7 +73,7 @@ module.exports.run = async (client, message, args) => {
 		}
 
 		try {
-			args.slice();
+			args.slice(1);
 			const code = args.join(" ");
 			let evaled = eval(code)
 				.catch((e) => {
