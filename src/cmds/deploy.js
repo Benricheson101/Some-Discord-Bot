@@ -13,21 +13,30 @@ module.exports.run = async (client, message, args) => {
 	if (process.env.NODE_ENV !== "production" && args[0] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now.");
 	let m = await message.channel.send("Deploy command received...");
 	console.log("Deploy command received...");
-	await client.channels.get("646109408446775376").send("Update queued...")
+	await client.channels.get(CONSTANTS.config.logChannel).send("Update queued...")
 		.then(async () => {
-			console.log("Updating code from Git");
+			log("Updating code from Git");
 			await m.edit("Updating code...");
 			return asyncExec("git fetch origin && git reset --hard origin/production");
 		})
 		.then(async () => {
-			console.log("Updating NPM modules");
+			log("Updating NPM modules");
 			await m.edit("Updating NPM modules...");
 			return asyncExec("npm i --production");
 		})
 		.then(async () => {
-			console.log("Shutting down...");
+			log("Shutting down...");
 			await m.edit("Shutting down...");
 			return process.exit(0);
 		});
+
+	/**
+	 * Log messages
+	 * @param {string} msg - The message to log
+	 */
+	function log (msg) {
+		console.log(msg);
+		client.channels.get(CONSTANTS.config.logChannel).send(msg);
+	}
 };
 
