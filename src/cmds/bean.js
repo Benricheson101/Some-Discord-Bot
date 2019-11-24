@@ -17,7 +17,7 @@ module.exports.run = async (client, message, args) => {
 	message.channel.send(`:white_check_mark: ${user} was beaned by ${message.author} with reason: ${(args.slice(1)).join(" ") || "no reason"}`);
 
 	/**
-	 *
+	 * Get a user
 	 * @param user - Either a userId or a mention
 	 * @returns {Collection<Snowflake, User>}
 	 */

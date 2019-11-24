@@ -11,7 +11,9 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	switch (args[0]) {
+	let cmd = args.shift();
+	args.slice(1);
+	switch (cmd) {
 	case ("destroy"): {
 		message.channel.send("Refreshing...")
 			.then(() => {
@@ -39,7 +41,7 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("reload"): {
-		const commandName = args[1].toLowerCase();
+		const commandName = args[0].toLowerCase();
 		const command = message.client.commands.get(commandName)
 			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
@@ -82,7 +84,7 @@ module.exports.run = async (client, message, args) => {
 		}
 
 		try {
-			const code = args.slice(1).join(" ");
+			const code = args.join(" ");
 			let evaled = eval(code);
 			if (typeof evaled !== "string") {
 				evaled = require("util").inspect(evaled);
@@ -110,7 +112,7 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("deploy"): {
-		if (process.env.NODE_ENV !== "production" && args[1] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
+		if (process.env.NODE_ENV !== "production" && args[0] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
 		let m = await message.channel.send("Loading...");
 		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Loading...");
 		await generateEmbed("Deploy command received");
@@ -142,6 +144,11 @@ module.exports.run = async (client, message, args) => {
 			if (logMsg) await logMsg.edit(embed);
 		}
 
+		break;
+	}
+	case ("say"): {
+		if (message.guild.me.hasPermission("MANAGE_MESSAGES")) message.delete();
+		message.channel.send(args.join(" "));
 		break;
 	}
 	default: {
