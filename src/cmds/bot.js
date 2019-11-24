@@ -135,8 +135,6 @@ module.exports.run = async (client, message, args) => {
 			if (typeof generateEmbed.message == "undefined") generateEmbed.message = [];
 			generateEmbed.message.push(`- ${msg}`);
 			let embed = new RichEmbed()
-				.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-				.setTitle()
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM")
 				.setTimestamp();
