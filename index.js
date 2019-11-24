@@ -1,14 +1,12 @@
 // ----- Variables -----
 
 // -- Local Variables --
-//const config = require("./config");
 require("dotenv").config();
 const Discord = require("discord.js");
 const fs = require("fs");
 const client = new Discord.Client({
 	disableEveryone: true
 });
-//const Sentry = require("@sentry/node");
 
 // -- Global Variables --
 global.CONSTANTS = require("./src/utils/constants");
