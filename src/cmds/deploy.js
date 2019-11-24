@@ -10,6 +10,7 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
+	if (process.env.NODE_ENV !== "production" && args[0] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now.");
 	let m = await message.channel.send("Deploy command received...");
 	console.log("Deploy command received...");
 	await client.channels.get("646109408446775376").send("Update queued...")

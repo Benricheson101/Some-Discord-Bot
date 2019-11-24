@@ -34,6 +34,26 @@ module.exports.run = async (client, message, args) => {
 			});
 		break;
 	}
+	case ("reload"): {
+		const commandName = args[0].toLowerCase();
+		const command = message.client.commands.get(commandName)
+			|| message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+		if (!command) return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
+
+		delete require.cache[require.resolve(`./${commandName}.js`)];
+
+		try {
+			const newCommand = require(`./${commandName}.js`);
+			message.client.commands.set(newCommand.name, newCommand);
+		} catch (err) {
+			message.channel.send(CONSTANTS.errors.generic);
+			throw new Error(err);
+		}
+		message.channel.send(`Command \`${commandName}\` was reloaded!`);
+
+		break;
+	}
 	case ("ping"): {
 		await message.channel.send("Loading...")
 			.then((m) => {
@@ -55,6 +75,7 @@ module.exports.run = async (client, message, args) => {
 
 					.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
 					.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
+					.addField("Version", (require("../../package.json")).version, true)
 				);
 			}
 	);
