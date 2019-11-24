@@ -1,4 +1,8 @@
 const { RichEmbed } = require("discord.js");
+const { promisify } = require("util");
+const { exec } = require("child_process");
+const asyncExec = promisify(exec);
+
 module.exports.config = {
 	name: "bot",
 	aliases: [],
@@ -62,6 +66,11 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("eval"): {
+		/**
+		 * "Clean" text before returning it with eval.
+		 * @param {string} text - Text to be "cleaned"
+		 * @returns {string} - Cleaned text
+		 */
 		function clean (text) {
 			if (text.includes(client.token)) text.replace(client.token, "nice try");
 			if (typeof (text) === "string") {
@@ -71,7 +80,6 @@ module.exports.run = async (client, message, args) => {
 			text = text.substring(0, 1000);
 			return text;
 		}
-
 		try {
 			const code = args.slice(1).join(" ");
 			let evaled = eval(code);
@@ -98,6 +106,51 @@ module.exports.run = async (client, message, args) => {
 				.setTimestamp();
 			message.channel.send(errorEmbed);
 		}
+		break;
+	}
+	case ("deploy"): {
+		/*let m = await message.channel.send("Deploy command received...");
+		console.log("Deploy command received...");
+		await client.channels.get(CONSTANTS.config.logChannel).send("Update queued...")
+			.then(async () => {
+				log("Updating code from Git");
+				await m.edit("Updating code...");
+				return asyncExec("git fetch origin && git reset --hard origin/production");
+			})
+			.then(async () => {
+				log("Updating NPM modules");
+				await m.edit("Updating NPM modules...");
+				return asyncExec("npm i --production");
+			})
+			.then(async () => {
+				log("Shutting down...");
+				await m.edit("Shutting down...");
+				return process.exit(0);
+			});*/
+		if (process.env.NODE_ENV !== "production" && args[1] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
+		await message.channel.send("Deploy command received...")
+			.then(async (m) => {
+				await m.edit("Updating code...");
+				return asyncExec("git fetch origin && git reset --hard origin/production"); // Pull new code from the production branch on GitHub
+			})
+			.then(async (m) => {
+				await m.edit("Installing new NPM packages...");
+				return asyncExec("npm i --production"); // Installing any new dependencies
+			})
+			.then(async (m) => {
+				await m.edit("Shutting down...");
+				return process.exit(0); // Stop the bot; Glitch should automatically restart the bot after it is shut down
+			});
+
+		/**
+		 * Log messages
+		 * @param {string} msg - The message to log
+		 */
+		function log (msg) {
+			console.log(msg);
+			client.channels.get(CONSTANTS.config.logChannel).send(msg);
+		}
+
 		break;
 	}
 	default: {
