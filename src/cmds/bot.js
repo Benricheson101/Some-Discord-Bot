@@ -112,7 +112,7 @@ module.exports.run = async (client, message, args) => {
 	case ("deploy"): {
 		if (process.env.NODE_ENV !== "production" && args[1] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
 		let m = await message.channel.send("Deploy command received...");
-		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Deploy command received...");
+		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Loading...");
 		await generateEmbed("Deploy command received");
 
 		await generateEmbed("Updating code");
@@ -136,6 +136,7 @@ module.exports.run = async (client, message, args) => {
 			generateEmbed.message.push(`- ${msg}`);
 			let embed = new RichEmbed()
 				.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+				.setTitle()
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM")
 				.setTimestamp();
