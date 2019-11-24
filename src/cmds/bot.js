@@ -143,7 +143,6 @@ module.exports.run = async (client, message, args) => {
 			if (m) await m.edit(embed);
 			if (logMsg) await logMsg.edit(embed);
 		}
-
 		break;
 	}
 	case ("say"): {
