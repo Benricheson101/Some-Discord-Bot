@@ -1,7 +1,7 @@
 module.exports.errors = {
 	guildOnly: "This command cannot be used in DMs. Please try again in a server.",
 	noperms: "You do not have permission to use this command.",
-	generic: "An unknown error has occurred. Please try again!"
+	generic: "An unhandled error has occurred. Please try again!"
 };
 
 module.exports.supers = [
