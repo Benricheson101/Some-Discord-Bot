@@ -12,7 +12,7 @@ module.exports.run = async (client, message, args) => {
 	if (!args[0] || !getMember(args[0])) return message.channel.send(":x: You must mention someone or provide an ID of the user you would like to bean!");
 	let user = getMember(args[0]);
 
-	if (message.guild.member(user).hasPermission("BAN_MEMBERS", false, true, true)) return message.channel.send(":x: I cannot bean this user.");
+	if (message.guild.member(user).hasPermission("BAN_MEMBERS", false, true, true) && message.author !== user) return message.channel.send(":x: I cannot bean this user.");
 
 	message.channel.send(`:white_check_mark: ${user} was beaned by ${message.author} with reason: ${(args.slice(1)).join(" ") || "no reason"}`);
 
