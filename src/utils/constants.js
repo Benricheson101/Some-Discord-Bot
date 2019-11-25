@@ -10,8 +10,7 @@ module.exports.supers = [
 
 module.exports.config = {
 	prefix: ">",
-	//"mentionPrefix": true,
-	logChannel: "646109408446775376" // cId
+	logChannel: "646109408446775376"
 };
 
 module.exports.info = {

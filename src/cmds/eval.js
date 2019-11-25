@@ -1,6 +1,6 @@
 module.exports.config = {
 	name: "eval",
-	aliases: ["run"],
+	aliases: [],
 	ownerOnly: true,
 	guildOnly: false
 };
