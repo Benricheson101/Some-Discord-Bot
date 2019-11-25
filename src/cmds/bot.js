@@ -1,7 +1,5 @@
 const { RichEmbed } = require("discord.js");
-const { promisify } = require("util");
-const { exec } = require("child_process");
-const asyncExec = promisify(exec);
+const exec = (require("util").promisify((require("child_process").exec)));
 
 module.exports.config = {
 	name: "bot",
@@ -118,10 +116,10 @@ module.exports.run = async (client, message, args) => {
 		await generateEmbed("Deploy command received");
 
 		await generateEmbed("Updating code");
-		asyncExec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
+		exec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
 			.then(async () => {
 				await generateEmbed("Installing new NPM packages");
-				return asyncExec("npm i --production"); // Installing any new dependencies
+				return exec("npm i --production"); // Installing any new dependencies
 			})
 			.then(async () => {
 				await generateEmbed("Shutting down");
