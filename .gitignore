@@ -106,3 +106,6 @@ dist
 # IDE Files
 .idea
 .idea/*
+
+# Other Files
+/src/utils/missingAnimals.js

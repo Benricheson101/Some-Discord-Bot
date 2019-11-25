@@ -1,4 +1,5 @@
 const SA = require("superagent");
+const missing = require("../utils/missingAnimals");
 const unsplash = new (require("unsplash-js")).default({
 	accessKey: process.env.UNSPLASHACCESSKEY
 });
@@ -78,6 +79,12 @@ module.exports.run = async (client, message, args) => {
 	case ("panda"): {
 		await generateEmbed({
 			image: (await SA.get("https://some-random-api.ml/img/panda")).body.link
+		});
+		break;
+	}
+	case ("otter"): {
+		await generateEmbed({
+			image: missing.otter[Math.floor(Math.random()*(missing.otter).length)]
 		});
 		break;
 	}
