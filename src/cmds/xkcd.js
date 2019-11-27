@@ -7,22 +7,19 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
+	let latest = await (SA.get("https://xkcd.com/info.0.json"))
+		.then((res) => {
+			return res.body;
+		});
 
-	/*if (!isNaN(args[0])) {
-		let data = (await SA.get(`https://xkcd.com/${args[0]}/info.0.json`))
-			.then((res, err) => {
-				if (err && err.status !== "200") return await (SA.get("https://xkcd.com/info.0.json")).body;
-				return res.body;
-			});
-
-		await generateEmbed(data);
-	}*/
-	await generateEmbed(
-		await (SA.get("https://xkcd.com/info.0.json"))
-			.then((res) => {
-				return res.body;
-			})
-	);
+	if (!isNaN(args[0])) {
+		if (args[0] > latest.num || args[0] < 1 || args[0] % 1 !== 0) return message.channel.send(`:x: That doesn't exist! Please choose a number between 1 and ${latest.num}.`);
+		await generateEmbed((await SA.get(`https://xkcd.com/${args[0]}/info.0.json`)).body);
+	} else if (args[0] === "latest"){
+		await generateEmbed(latest)
+	} else {
+		await generateEmbed((await SA.get(`https://xkcd.com/${Math.floor(Math.random() * latest.num) +1}/info.0.json`)).body);
+	}
 
 	/**
 	 * @param {Object} data
