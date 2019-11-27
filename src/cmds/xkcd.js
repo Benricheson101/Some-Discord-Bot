@@ -32,6 +32,7 @@ module.exports.run = async (client, message, args) => {
 	function generateEmbed (data) {
 		let embed = new (require("discord.js")).RichEmbed()
 			.setTitle(data.title)
+			.setAuthor(data.num)
 			.setURL(`https://xkcd.com/${data.num}`)
 			.setImage(data.img)
 			.setFooter(data.alt)
