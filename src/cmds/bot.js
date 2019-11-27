@@ -88,6 +88,7 @@ module.exports.run = async (client, message, args) => {
 				evaled = require("util").inspect(evaled);
 			}
 
+			// TODO: make this shorter
 			let successEmbed = new RichEmbed()
 				.setAuthor(message.author.username, message.author.icon_url)
 				.setTitle("JavaScript Eval Success!")
