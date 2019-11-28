@@ -40,5 +40,4 @@ module.exports.run = async (client, message, args) => {
 			.setTimestamp(new Date(data.year, data.month - 1, data.day + 1));
 		return message.channel.send(embed);
 	}
-
 };
