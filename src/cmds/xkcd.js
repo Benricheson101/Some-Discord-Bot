@@ -39,9 +39,8 @@ module.exports.run = async (client, message, args) => {
 			.setImage(data.img)
 			.setFooter(data.alt)
 			.setColor("#3485e7")
-			.setTimestamp(date)
+			.setTimestamp(date);
 			//.setTimestamp(new Date(data.year, data.month - 1, data.day));
-			.setTimestamp(new Date(data.year, data.month - 1, data.day + 1));
 		return message.channel.send(embed);
 	}
 };
