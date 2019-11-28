@@ -22,16 +22,15 @@ module.exports.run = async (client, message, args) => {
 	}
 
 	/**
-	 * @param {Object} data
+	 * Generate and send an embed with the JSON data.
+	 * @param {Object} data - The JSON result
 	 * @param {string} data.title - The comic title
-	 * @param {string} data.num - The comic number
+	 * @param {number} data.num - The comic number
 	 * @param {string} data.img - The image link
 	 * @param {string} data.alt - The alt-text
 	 * @returns {Promise<void>}
 	 */
 	function generateEmbed (data) {
-		let date = new Date(data.year, data.month - 1, data.day);
-		console.log(date);
 		let embed = new (require("discord.js")).RichEmbed()
 			.setTitle(data.title)
 			.setAuthor(data.num)
@@ -39,8 +38,7 @@ module.exports.run = async (client, message, args) => {
 			.setImage(data.img)
 			.setFooter(data.alt)
 			.setColor("#3485e7")
-			.setTimestamp(date);
-			//.setTimestamp(new Date(data.year, data.month - 1, data.day));
+			.setTimestamp(new Date(data.year, data.month - 1, data.day));
 		return message.channel.send(embed);
 	}
 };

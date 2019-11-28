@@ -12,7 +12,8 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <fox/dog/cat/duck/koala/wolf/panda/redpanda>\``);
+	let animals = ["fox", "dog", "cat", "cat", "duck", "koala", "wolf", "redpanda", "panda", "otter"];
+	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <animal>\`. You can supply the following animals: \`${animals.join(", ")}\``);
 
 	switch (args[0]) {
 	case ("foxxo"):
@@ -58,7 +59,7 @@ module.exports.run = async (client, message, args) => {
 		let img = await unsplash.photos.getRandomPhoto({
 			query: "wolf"
 		})
-			.catch((e) => { throw new Error(e) })
+			.catch((e) => { throw new Error(e); })
 			.then((res) => res.json())
 			.then((json) => {
 				return json;
@@ -84,7 +85,7 @@ module.exports.run = async (client, message, args) => {
 	}
 	case ("otter"): {
 		await generateEmbed({
-			image: missing.otter[Math.floor(Math.random()*(missing.otter).length)]
+			image: missing.otter[Math.floor(Math.random() * (missing.otter).length)]
 		});
 		break;
 	}
@@ -98,10 +99,11 @@ module.exports.run = async (client, message, args) => {
 	}
 
 	/**
+	 * Generate and send an embed
 	 * @param {Object} animal - Animal object
 	 * @param {string} animal.image - The picture of an animal
-	 * @param {string} animal.fact - Animal fact
-	 * @param {string} animal.info - Any additional info (error message, picture credit, etc.)
+	 * @param {string} [animal.fact] - Animal fact
+	 * @param {string} [animal.info] - Any additional info (error message, picture credit, etc.)
 	 * @returns {Promise<void>}
 	 */
 	async function generateEmbed (animal) {
@@ -114,4 +116,5 @@ module.exports.run = async (client, message, args) => {
 		await message.channel.stopTyping(true);
 		return message.channel.send(embed);
 	}
-};
+}
+;
