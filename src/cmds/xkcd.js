@@ -36,9 +36,8 @@ module.exports.run = async (client, message, args) => {
 			.setAuthor(data.num)
 			.setURL(`https://xkcd.com/${data.num}`)
 			.setImage(data.img)
-			.setFooter(data.alt)
-			.setColor("#3485e7")
-			.setTimestamp(new Date(data.year, data.month - 1, data.day));
+			.setFooter(`${data.alt} • ${data.month + "/" + data.day + "/" + data.year}`)
+			.setColor("#3485e7");
 		return message.channel.send(embed);
 	}
 };
