@@ -12,7 +12,7 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	let animals = ["fox", "dog", "cat", "cat", "duck", "koala", "wolf", "redpanda", "panda", "otter"];
+	let animals = ["fox", "dog", "cat", "cat", "duck", "koala", "wolf", "redpanda", "panda", "otter", "dragon"];
 	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <animal>\`. You can supply the following animals: \`${animals.join(", ")}\``);
 
 	switch (args[0]) {
@@ -94,7 +94,9 @@ module.exports.run = async (client, message, args) => {
 		let md5 = res[0].md5;
 
 		await generateEmbed({
-			image: `https://static1.e926.net/data/${md5.substr(0,2)}/${md5.substr(2,2)}/${md5}.${res[0].ext}`
+			image: `https://static1.e926.net/data/${md5.substr(0,2)}/${md5.substr(2,2)}/${md5}.${res[0].ext}`,
+			title: `By: ${res[0].artist}`,
+			url: res[0].sources[0],
 		});
 		break;
 	}
@@ -113,6 +115,7 @@ module.exports.run = async (client, message, args) => {
 	 * @param {string} animal.image - The picture of an animal
 	 * @param {string} [animal.fact] - Animal fact
 	 * @param {string} [animal.info] - Any additional info (error message, picture credit, etc.)
+	 * @param {string} [animal.url] - Another additional info field
 	 * @returns {Promise<void>}
 	 */
 	async function generateEmbed (animal) {
@@ -122,6 +125,8 @@ module.exports.run = async (client, message, args) => {
 			.setImage(animal.image);
 		animal.fact ? embed.setFooter(animal.fact) : "";
 		animal.info ? embed.setAuthor(animal.info) : "";
+		animal.title ? embed.setTitle(animal.title) : "";
+		animal.url ? embed.setURL(animal.url) : "";
 		await message.channel.stopTyping(true);
 		return message.channel.send(embed);
 	}
