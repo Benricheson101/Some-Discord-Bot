@@ -89,6 +89,15 @@ module.exports.run = async (client, message, args) => {
 		});
 		break;
 	}
+	case ("dragon"): {
+		let res = (await SA.get("https://blue.catbus.co.uk/api/search?term=dragon+solo+feral+-young+-diaper+-overweight-traditional_media_%5C(artwork%5C)+-pregnant+rating:s+order:random&page=0&page_size=20&nsfw=false")).body.posts;
+		let md5 = res[0].md5;
+
+		await generateEmbed({
+			image: `https://static1.e926.net/data/${md5.substr(0,2)}/${md5.substr(2,2)}/${md5}.${res[0].ext}`
+		});
+		break;
+	}
 	default: {
 		await generateEmbed({
 			image: "https://http.cat/404.jpg",
