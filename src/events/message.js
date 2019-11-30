@@ -1,9 +1,10 @@
 module.exports = async (client, message) => {
 	if (message.author.bot) return;
 	if (message.content === "!awoo") return message.channel.send(":eyes:"); // easter egg
-	if (message.content.indexOf(CONSTANTS.config.prefix) !== 0) return;
+	let prefix = process.env.NODE_ENV === "production" ? CONSTANTS.config.prefix : CONSTANTS.config.devPrefix;
+	if (message.content.indexOf(prefix) !== 0) return;
 
-	const args = message.content.slice(CONSTANTS.config.prefix.length).split(/ +/g);
+	const args = message.content.slice(prefix.length).split(/ +/g);
 	const command = args.shift().toLowerCase();
 
 	const cmd = client.commands.get(command) || client.commands.find((c) => c.config.aliases && c.config.aliases.includes(command));

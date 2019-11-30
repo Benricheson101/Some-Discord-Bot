@@ -164,6 +164,8 @@ module.exports.run = async (client, message, args) => {
 						.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
 						.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
 						.addField("Version", (require("../../package.json")).version, true)
+
+						.addField("Node-ENV", process.env.NODE_ENV, true)
 					);
 				}
 			);

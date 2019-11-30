@@ -10,6 +10,7 @@ module.exports.supers = [
 
 module.exports.config = {
 	prefix: ">",
+	devPrefix: "..",
 	logChannel: "646109408446775376"
 };
 
