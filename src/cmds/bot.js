@@ -1,5 +1,6 @@
 const { RichEmbed } = require("discord.js");
 const exec = (require("util").promisify((require("child_process").exec)));
+const SA = require("superagent");
 
 module.exports.config = {
 	name: "bot",
@@ -119,6 +120,10 @@ module.exports.run = async (client, message, args) => {
 		await generateEmbed("Updating code");
 		exec("git fetch origin && git reset --hard origin/production") // Pull new code from the production branch on GitHub
 			.then(async () => {
+				await generateEmbed("Removing old node modules");
+				return exec("rm -rf node_modules/"); // Delete old node_modules
+			})
+			.then(async () => {
 				await generateEmbed("Installing new NPM packages");
 				return exec("npm i --production"); // Installing any new dependencies
 			})
@@ -150,22 +155,34 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	default: {
-		// bot info embed
+		let commit = await fetch("https://api.github.com/repos/Benricheson101/Some-Discord-Bot/commits/production")
+			.then((res) => {
+				return res.json();
+			});
 		message.channel.send("Loading...")
 			.then((m) => {
 					m.edit(new RichEmbed()
 						.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
-						.setColor("DARK_BLUE")
+						.setColor("RANDOM")
 						.setTimestamp()
-						.addField("Library", "[Discord.JS](https://discord.js.org/)", true)
-						.addField("Owner", "Ben.#0002", true)
-						.addField("GitHub Repo", `[GitHub](${CONSTANTS.info.repo})`, true)
 
-						.addField("Edit Time", `${m.createdTimestamp - message.createdTimestamp}ms`, true)
-						.addField("API Response Time", `${Math.round(client.ping)}ms`, true)
-						.addField("Version", (require("../../package.json")).version, true)
-
-						.addField("Node-ENV", process.env.NODE_ENV, true)
+						.addField("Bot Info",
+							`**Library**: [Discord.JS](https://discord.js.org/)` +
+							`\n**Developer**: Ben.#0002` +
+							`\n**GitHub Repo**: [GitHub](${CONSTANTS.info.repo})` +
+							`\n**Latest Commit**: [Here](${commit.html_url})` +
+							`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
+							`\n**UserID**: ${client.user.id}`,
+							true
+							)
+						.addField("Other Info",
+							`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
+							`\n**API Response Time**: ${Math.round(client.ping)}ms` +
+							`\n**Version**: ${(require("../../package.json")).version}` +
+							`\n**Node-ENV**: ${process.env.NODE_ENV}` +
+							`\n**Host**: [Glitch](https://glitch.com/)`,
+							true
+							)
 					);
 				}
 			);
