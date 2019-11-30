@@ -33,7 +33,7 @@ module.exports.run = async (client, message, args) => {
 
   let embed = new (require("discord.js")).RichEmbed()
   .setTitle(res.raw.title)
-  .setDescription(await res.summary().substring(0, 2048))
+  .setDescription((await res.summary()).substring(0, 2048))
   .setColor("RANDOM")
   .setURL(res.raw.fullurl);
 
