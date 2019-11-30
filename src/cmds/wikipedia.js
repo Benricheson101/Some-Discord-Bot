@@ -3,7 +3,7 @@ const wiki = require('wikijs').default;
 module.exports.config = {
 	name: "wikipedia",
 	aliases: ["wiki"],
-	ownerOnly: true,
+	ownerOnly: false,
 	guildOnly: false
 };
 
