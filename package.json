@@ -1,6 +1,6 @@
 {
   "name": "eval",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,9 +14,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
-    "superagent": "^5.1.1",
-    "unsplash-js": "^6.0.0",
     "superagent": "latest",
+    "unsplash-js": "^6.0.0",
     "wikijs": "^6.0.0"
   }
 }
