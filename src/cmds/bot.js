@@ -1,6 +1,5 @@
 const { RichEmbed } = require("discord.js");
 const exec = (require("util").promisify((require("child_process").exec)));
-const SA = require("superagent");
 
 module.exports.config = {
 	name: "bot",
