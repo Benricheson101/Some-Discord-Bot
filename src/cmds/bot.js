@@ -153,6 +153,18 @@ module.exports.run = async (client, message, args) => {
 		message.channel.send(args.join(" "));
 		break;
 	}
+	case ("delete"): {
+		if (!args) return message.channel.send(":x: Please provide a message ID for me to delete. Alternatively, provide both a channel ID and message ID to delete from another channel.");
+		if (args.length === 1) {
+			return message.channel.fetchMessage(args[0])
+			.then((m) => m.delete());
+		}
+		else {
+			return client.channels.find((c) => c.id === args[0]).fetchMessage(args[1])
+				.then((m) => m.delete())
+		}
+		break;
+	}
 	default: {
 		let commit = await fetch("https://api.github.com/repos/Benricheson101/Some-Discord-Bot/commits/production")
 			.then((res) => {
