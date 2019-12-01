@@ -157,11 +157,13 @@ module.exports.run = async (client, message, args) => {
 		if (!args) return message.channel.send(":x: Please provide a message ID for me to delete. Alternatively, provide both a channel ID and message ID to delete from another channel.");
 		if (args.length === 1) {
 			return message.channel.fetchMessage(args[0])
-			.then((m) => m.delete());
+			.then((m) => m.delete())
+			.then(message.react("👌"));
 		}
 		else {
 			return client.channels.find((c) => c.id === args[0]).fetchMessage(args[1])
 				.then((m) => m.delete())
+				.then(message.react("👌"));
 		}
 		break;
 	}
