@@ -45,7 +45,7 @@ fs.readdir("./src/events/", (err, files) => {
 
 // ----- Start the bot! -----
 
-client.login(process.env.NODE_ENV === "development" ? process.env.DEV_TOKEN : process.env.TOKEN)
+client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process.env.DEV_TOKEN)
 	.catch(console.error);
 
 // ----- Glitch Stuff -----
