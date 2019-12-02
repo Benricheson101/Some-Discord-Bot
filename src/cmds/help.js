@@ -6,5 +6,5 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	message.channel.send("Figure it out yourself");
+	message.channel.send("idk either tbh");
 };
