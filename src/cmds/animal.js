@@ -94,7 +94,7 @@ module.exports.run = async (client, message, args) => {
 		let md5 = res[0].md5;
 
 		await generateEmbed({
-			image: `https://static1.e926.net/data/${md5.substr(0,2)}/${md5.substr(2,2)}/${md5}.${res[0].ext}`,
+			image: `https://static1.e926.net/data/${md5.substr(0, 2)}/${md5.substr(2, 2)}/${md5}.${res[0].ext}`,
 			title: `By: ${res[0].artist}`,
 			url: res[0].sources[0],
 		});
