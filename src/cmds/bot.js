@@ -113,7 +113,7 @@ module.exports.run = async (client, message, args) => {
 	case ("deploy"): {
 		if (process.env.NODE_ENV !== "production" && args[0] !== "-f") return message.channel.send(":x: I am not running in the production environment. You probably don't want to deploy now."); // Don't deploy if the bot isn't running in the production environment
 		let m = await message.channel.send("Loading...");
-		let logMsg = await client.channels.get(CONSTANTS.config.logChannel).send("Loading...");
+		let logMsg = await client.channels.get(CONSTANTS.config.logs).send("Loading...");
 		await generateEmbed("Deploy command received");
 
 		await generateEmbed("Updating code");
