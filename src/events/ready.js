@@ -11,7 +11,7 @@ module.exports = async (client) => {
 		status: "idle",
 	});
 
-	await wait(2000);
+	await wait(1000);
 
 	await client.user.setPresence({
 		game: {

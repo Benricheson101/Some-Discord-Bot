@@ -10,10 +10,7 @@ module.exports.supers = [
 
 module.exports.config = {
 	prefix: ">",
+	logs: "646109408446775376",
 	devPrefix: "..",
-	logChannel: "646109408446775376"
-};
-
-module.exports.info = {
-	repo: "https://github.com/Benricheson101/Some-Discord-Bot/tree/production",
+	devLogs: "647556666690371584"
 };

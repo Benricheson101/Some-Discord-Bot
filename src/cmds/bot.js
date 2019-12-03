@@ -146,6 +146,7 @@ module.exports.run = async (client, message, args) => {
 			if (m) await m.edit(embed);
 			if (logMsg) await logMsg.edit(embed);
 		}
+
 		break;
 	}
 	case ("say"): {
@@ -157,10 +158,9 @@ module.exports.run = async (client, message, args) => {
 		if (!args) return message.channel.send(":x: Please provide a message ID for me to delete. Alternatively, provide both a channel ID and message ID to delete from another channel.");
 		if (args.length === 1) {
 			return message.channel.fetchMessage(args[0])
-			.then((m) => m.delete())
-			.then(message.react("👌"));
-		}
-		else {
+				.then((m) => m.delete())
+				.then(message.react("👌"));
+		} else {
 			return client.channels.find((c) => c.id === args[0]).fetchMessage(args[1])
 				.then((m) => m.delete())
 				.then(message.react("👌"));
@@ -174,20 +174,20 @@ module.exports.run = async (client, message, args) => {
 			});
 		message.channel.send("Loading...")
 			.then((m) => {
+					let date = new Date(commit.commit.author.date);
 					m.edit(new RichEmbed()
 						.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
 						.setColor("RANDOM")
 						.setTimestamp()
-
 						.addField("Bot Info",
 							`**Library**: [Discord.JS](https://discord.js.org/)` +
 							`\n**Developer**: Ben.#0002` +
-							`\n**GitHub Repo**: [GitHub](${CONSTANTS.info.repo})` +
-							`\n**Latest Commit**: [Here](${commit.html_url})` +
+							`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
+							`\n**Latest Commit**: [${date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()}](${commit.html_url})` +
 							`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
 							`\n**UserID**: ${client.user.id}`,
 							true
-							)
+						)
 						.addField("Other Info",
 							`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
 							`\n**API Response Time**: ${Math.round(client.ping)}ms` +
@@ -195,7 +195,7 @@ module.exports.run = async (client, message, args) => {
 							`\n**Node-ENV**: ${process.env.NODE_ENV}` +
 							`\n**Host**: [Glitch](https://glitch.com/)`,
 							true
-							)
+						)
 					);
 				}
 			);

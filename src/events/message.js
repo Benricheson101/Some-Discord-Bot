@@ -26,7 +26,6 @@ module.exports = async (client, message) => {
 			});
 	} catch (err) {
 		createError(err);
-		message.channel.send(CONSTANTS.errors.generic);
 	}
 
 	/**
@@ -43,7 +42,10 @@ module.exports = async (client, message) => {
 			.setFooter(message.content);
 
 		console.error(err);
-		client.channels.find((c) => c.id === CONSTANTS.config.logChannel).send(embed);
-		message.channel.send(embed);
+		client.channels.find((c) => c.id === (process.env.NODE_ENV === "development" ? CONSTANTS.config.devLogs : CONSTANTS.config.logs)).send(embed);
+		message.channel.send(CONSTANTS.errors.generic);
+		if (CONSTANTS.supers.includes(message.author.id)) {
+			message.channel.send(embed);
+		}
 	}
 };
