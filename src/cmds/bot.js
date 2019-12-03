@@ -183,7 +183,7 @@ module.exports.run = async (client, message, args) => {
 							`**Library**: [Discord.JS](https://discord.js.org/)` +
 							`\n**Developer**: Ben.#0002` +
 							`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
-							`\n**Latest Commit**: [${date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()}](${commit.html_url})` +
+							`\n**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})` +
 							`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
 							`\n**UserID**: ${client.user.id}`,
 							true
