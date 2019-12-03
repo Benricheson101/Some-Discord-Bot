@@ -31,12 +31,13 @@ module.exports.run = async (client, message, args) => {
 	 * @returns {Promise<void>}
 	 */
 	function generateEmbed (data) {
+		console.log(data);
 		let embed = new (require("discord.js")).RichEmbed()
 			.setTitle(data.title)
 			.setAuthor(data.num)
 			.setURL(`https://xkcd.com/${data.num}`)
 			.setImage(data.img)
-			.setFooter(`${data.alt} • ${data.year + "-" + data.month + "-" + data.day}`)
+			.setFooter(`${data.alt} • ${data.year + "-" + ("0" + data.month).slice(-2) + "-" + ("0" + data.day).slice(-2)}`)
 			.setColor("#3485e7");
 		return message.channel.send(embed);
 	}
