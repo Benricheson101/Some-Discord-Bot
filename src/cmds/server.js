@@ -25,7 +25,7 @@ module.exports.run = async (client, message, args) => {
 				return message.channel.send(role.toString());
 			})
 			.then(() => {
-				return role.setMentionable(false, `Role pinged by ${message.author.tag} (${message.author.id})}`);
+				return role.setMentionable(role.mentionable, `Role pinged by ${message.author.tag} (${message.author.id})}`);
 			});
 		break;
 	}
