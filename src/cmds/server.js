@@ -20,12 +20,13 @@ module.exports.run = async (client, message, args) => {
 		if (!role) return message.channel.send(":x: I cannot find that role. Please ensure you have copied the correct ID or spelled the role name correctly!");
 		if (!role.editable) return message.channel.send(":x: I cannot edit this role. Please make sure I have a role above the role you are trying to mention.");
 
+		let mentionable = role.mentionable;
 		role.setMentionable(true, `Pinging role...`)
 			.then(() => {
 				return message.channel.send(role.toString());
 			})
 			.then(() => {
-				return role.setMentionable(role.mentionable, `Role pinged by ${message.author.tag} (${message.author.id})`);
+				return role.setMentionable(mentionable, `Role pinged by ${message.author.tag} (${message.author.id})`);
 			});
 		break;
 	}
