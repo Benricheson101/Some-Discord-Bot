@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
 			.setFooter(message.content);
 
 		console.error(err);
-		client.channels.find((c) => c.id === (process.env.NODE_ENV === "development" ? CONSTANTS.config.devLogs : CONSTANTS.config.logs)).send(embed);
+		client.channels.find((c) => c.id === (process.env.NODE_ENV === "production" ? CONSTANTS.config.logs : CONSTANTS.config.devLogs)).send(embed);
 		message.channel.send(CONSTANTS.errors.generic);
 		if (CONSTANTS.supers.includes(message.author.id)) {
 			message.channel.send(embed);
