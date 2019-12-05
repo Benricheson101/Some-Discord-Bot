@@ -176,7 +176,7 @@ module.exports.run = async (client, message, args) => {
 			.then((m) => {
 					let date = new Date(commit.commit.author.date);
 					m.edit(new RichEmbed()
-						.setAuthor(`${message.author.username}#${message.author.discriminator}`, message.author.avatarURL)
+						.setAuthor(`${message.author.tag}`, message.author.avatarURL)
 						.setColor("RANDOM")
 						.setTimestamp()
 						.addField("Bot Info",
