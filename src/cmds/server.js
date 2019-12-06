@@ -17,8 +17,8 @@ module.exports.run = async (client, message, args) => {
 		message.delete();
 		if (!args.length) return message.channel.send(":x: Incorrect usage. Please put either a role ID or the role's name. Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => `\n${role.name} (${role.id})`) + "```");
 		let role = message.guild.roles.find((role) => role.name === args.join(" ")) || message.guild.roles.get(args[0]);
-		let mentionable = role.mentionable;
 		if (!role) return message.channel.send(":x: I cannot find that role. Please ensure you have copied the correct ID or spelled the role name correctly! Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => `\n${role.name} (${role.id})`) + "```");
+		let mentionable = role.mentionable;
 		if (!role.editable && !mentionable) return message.channel.send(":x: I cannot edit this role. Please make sure I have a role above the role you are trying to mention.");
 
 		if (role.mentionable) return message.channel.send(role.toString());
