@@ -10,7 +10,7 @@ const client = new Discord.Client({
 
 // -- Global Variables --
 global.CONSTANTS = require("./src/utils/constants");
-global.fetch = require("node-fetch");
+global.fetch = require("node-fetch"); // Unsplash-js requires this to be global for some reason
 
 // ----- Command and Event Handler -----
 
@@ -51,14 +51,13 @@ client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process
 // ----- Glitch Stuff -----
 
 // -- Don't Sleep Please --
-const http = require('http');
-const express = require('express');
-const app = express();
+if (process.env.NODE_ENV === "production") {
+const app = (require("express"))();
 app.get("/", (request, response) => {
-	console.log(Date.now() + " Ping Received");
 	response.sendStatus(200);
 });
 app.listen(process.env.PORT);
 setInterval(() => {
-	http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+	(require("http")).get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
+}
