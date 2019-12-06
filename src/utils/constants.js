@@ -10,7 +10,7 @@ module.exports.supers = [
 
 module.exports.config = {
 	prefix: ">",
-	logs: "646109408446775376",
 	devPrefix: "..",
+	logs: "652288757755543623",
 	devLogs: "647556666690371584"
 };
