@@ -12,5 +12,5 @@ module.exports.config = {
 	prefix: ">",
 	devPrefix: "..",
 	logs: "652288757755543623",
-	devLogs: "647556666690371584"
+	devLogs: "652312009681010718"
 };
