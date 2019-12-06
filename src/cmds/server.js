@@ -15,9 +15,9 @@ module.exports.run = async (client, message, args) => {
 		if (!message.member.hasPermission(268435456)) return message.channel.send(CONSTANTS.errors.noperms);
 		if (!message.guild.me.hasPermission(268435456)) return message.channel.send(":x: I do not have permission to do that! Please ensure I have `MANAGE_ROLES`"); // Required permission: manage roles
 		message.delete();
-		if (!args.length) return message.channel.send(":x: Incorrect usage. Please put either a role ID or the role's name. Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => role.name) + "```");
+		if (!args.length) return message.channel.send(":x: Incorrect usage. Please put either a role ID or the role's name. Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => `\n${role.name} (${role.id})`) + "```");
 		let role = message.guild.roles.find((role) => role.name === args.join(" ")) || message.guild.roles.get(args[0]);
-		if (!role) return message.channel.send(":x: I cannot find that role. Please ensure you have copied the correct ID or spelled the role name correctly! Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => role.name) + "```");
+		if (!role) return message.channel.send(":x: I cannot find that role. Please ensure you have copied the correct ID or spelled the role name correctly! Here is a list of roles that you can have me ping: ```js\n" + message.guild.roles.filter((role) => role.editable || role.mentionable).map((role) => `\n${role.name} (${role.id})`) + "```");
 		if (!role.editable) return message.channel.send(":x: I cannot edit this role. Please make sure I have a role above the role you are trying to mention.");
 
 		let mentionable = role.mentionable;
