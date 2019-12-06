@@ -72,7 +72,6 @@ module.exports.run = async (client, message, args) => {
 		 * @returns {string} - Cleaned text
 		 */
 		function clean (text) {
-			if (text.includes(client.token)) text.replace(client.token, "nice try");
 			if (typeof (text) === "string") {
 				text = text.substring(0, 1000);
 				return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
