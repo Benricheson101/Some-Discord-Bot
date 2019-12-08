@@ -1,6 +1,6 @@
 module.exports = async (client, message) => {
 	if (message.author.bot) return;
-	let prefix = process.env.NODE_ENV === "production" ? CONSTANTS.config.prefix : CONSTANTS.config.devPrefix;
+	let prefix = CONSTANTS.config.prefix;
 	if (message.content.indexOf(prefix) !== 0) return;
 
 	const args = message.content.slice(prefix.length).split(/ +/g);
@@ -14,7 +14,7 @@ module.exports = async (client, message) => {
 	}
 
 	if (cmd.config.ownerOnly === true) {
-		if (!(CONSTANTS.supers.includes(message.author.id))) {
+		if (!(CONSTANTS.superUsers.includes(message.author.id))) {
 			return message.channel.send(CONSTANTS.errors.noperms);
 		}
 	}
@@ -44,7 +44,7 @@ module.exports = async (client, message) => {
 		console.error(err);
 		client.channels.find((c) => c.id === (process.env.NODE_ENV === "production" ? CONSTANTS.config.logs : CONSTANTS.config.devLogs)).send(embed);
 		message.channel.send(CONSTANTS.errors.generic);
-		if (CONSTANTS.supers.includes(message.author.id)) {
+		if (CONSTANTS.superUsers.includes(message.author.id)) {
 			message.channel.send(embed);
 		}
 	}
