@@ -5,7 +5,8 @@ module.exports.config = {
 	name: "bot",
 	aliases: [],
 	ownerOnly: true,
-	guildOnly: false
+	guildOnly: false,
+	hidden: true
 };
 
 module.exports.run = async (client, message, args) => {
@@ -164,6 +165,29 @@ module.exports.run = async (client, message, args) => {
 			return client.channels.find((c) => c.id === args[0]).fetchMessage(args[1])
 				.then((m) => m.delete())
 				.then(message.react("👌"));
+		}
+		break;
+	}
+	case ("gen"):
+	case ("generate"): {
+		let subCmd = args.shift();
+		args.slice(1);
+		switch (subCmd) {
+		case ("cmdlist"):
+		case ("cmds"): {
+			message.channel.send(
+				client.commands.filter((cmd) => cmd.config.hidden === false).map((cmd) => {
+					let command = `\`${CONSTANTS.config.prefix + cmd.config.name}\``;
+					let aliases = cmd.config.aliases.length !== 0 ? ` aliases: \`${CONSTANTS.config.prefix + cmd.config.aliases.join(`, ${CONSTANTS.config.prefix}`)}\`` : "";
+					return command + aliases;
+				})
+			);
+			break;
+		}
+		default: {
+			message.channel.send(":x: Incorrect usage.");
+			break;
+		}
 		}
 		break;
 	}

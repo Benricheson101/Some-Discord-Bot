@@ -2,7 +2,8 @@ module.exports.config = {
 	name: "help",
 	aliases: [],
 	ownerOnly: false,
-	guildOnly: false
+	guildOnly: false,
+	hidden: false
 };
 
 module.exports.run = async (client, message, args) => {

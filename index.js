@@ -51,12 +51,12 @@ client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process
 // ----- Glitch Stuff -----
 
 // -- Don't Sleep Please --
-if (process.env.NODE_ENV === "production") {
-const app = (require("express"))();
-app.get("/", (request, response) => {
-	response.sendStatus(200);
-});
-app.listen(process.env.PORT);
+	if (process.env.NODE_ENV === "production") {
+		const app = (require("express"))();
+		app.get("/", (request, response) => {
+			response.sendStatus(200);
+		});
+		app.listen(process.env.PORT);
 setInterval(() => {
 	(require("http")).get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);

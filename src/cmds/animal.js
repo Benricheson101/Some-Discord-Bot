@@ -8,7 +8,8 @@ module.exports.config = {
 	name: "animal",
 	aliases: [],
 	ownerOnly: false,
-	guildOnly: false
+	guildOnly: false,
+	hidden: false
 };
 
 module.exports.run = async (client, message, args) => {
