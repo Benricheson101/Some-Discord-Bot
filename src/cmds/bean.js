@@ -2,7 +2,8 @@ module.exports.config = {
 	name: "bean",
 	aliases: ["banbutwithana"],
 	ownerOnly: false,
-	guildOnly: true
+	guildOnly: true,
+	hidden: false
 };
 
 module.exports.run = async (client, message, args) => {

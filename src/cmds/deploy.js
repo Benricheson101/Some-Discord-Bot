@@ -2,7 +2,8 @@ module.exports.config = {
 	name: "deploy",
 	aliases: [],
 	ownerOnly: true,
-	guildOnly: false
+	guildOnly: false,
+	hidden: true
 };
 
 module.exports.run = async (client, message, args) => {
