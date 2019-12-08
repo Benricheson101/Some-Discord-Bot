@@ -3,7 +3,7 @@ module.exports.config = {
 	name: "server",
 	aliases: ["utils"],
 	ownerOnly: false,
-	guildOnly: false,
+	guildOnly: true,
 	hidden: false
 };
 
