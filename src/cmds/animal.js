@@ -13,7 +13,7 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	let animals = ["fox", "dog", "cat", "cat", "duck", "koala", "wolf", "redpanda", "panda", "otter", "dragon"];
+	let animals = ["fox", "dog", "cat", "duck", "koala", "wolf", "redpanda", "panda", "otter", "dragon"];
 	if (!args[0]) return message.channel.send(`:x: Incorrect usage. Correct usage: \`${CONSTANTS.config.prefix}animal <animal>\`. You can supply the following animals: \`${animals.join(", ")}\``);
 
 	switch (args[0]) {

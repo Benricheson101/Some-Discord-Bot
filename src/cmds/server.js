@@ -19,7 +19,8 @@ module.exports.run = async (client, message, args) => {
 		if (!message.guild.me.hasPermission(268435456)) return message.channel.send(":x: I do not have permission to do that! Please ensure I have `MANAGE_ROLES`") // Required permission: manage roles
 			.then((m) => m.delete(5000));
 		message.delete();
-		if (!args.length) return message.channel.send(":x: Incorrect usage. Please put either a role ID or the role's name.")
+
+    if (!args.length) return message.channel.send(":x: Incorrect usage. Please put either a role ID or the role's name.")
 			.then((m) => m.delete(5000));
 		let role = message.guild.roles.find((role) => role.name === args.join(" ")) || message.guild.roles.get(args[0]);
 		if (!role) return message.channel.send(":x: I cannot find that role. Please ensure you have copied the correct ID or spelled the role name correctly!")
@@ -27,7 +28,10 @@ module.exports.run = async (client, message, args) => {
 		if (!role.editable) return message.channel.send(":x: I cannot edit this role. Please make sure I have a role above the role you are trying to mention.")
 			.then((m) => m.delete(5000));
 
-		let mentionable = role.mentionable;
+    let mentionable = role.mentionable;
+		if (!role.editable && !mentionable) return message.channel.send(":x: I cannot edit this role. Please make sure I have a role above the role you are trying to mention.");
+
+		if (role.mentionable) return message.channel.send(role.toString());
 		role.setMentionable(true, `Pinging role...`)
 			.then(() => {
 				return message.channel.send(role.toString());
