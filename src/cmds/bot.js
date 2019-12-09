@@ -59,7 +59,7 @@ module.exports.run = async (client, message, args) => {
 	case ("ping"): {
 		await message.channel.send("Loading...")
 			.then((m) => {
-				m.edit(`Pong! The edit time is \`${m.createdTimestamp - message.createdTimestamp}ms\` and the API response time is \`${Math.round(client.ping)}ms\``);
+				m.edit(`Pong! The edit time is \`${m.createdTimestamp - message.createdTimestamp}ms\` and the API response time is \`${Math.round(client.ws.ping)}ms\``);
 			});
 		break;
 	}

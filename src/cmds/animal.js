@@ -91,7 +91,12 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("dragon"): {
-		let res = (await SA.get("https://blue.catbus.co.uk/api/search?term=dragon+solo+feral+-young+-diaper+-overweight-traditional_media_%5C(artwork%5C)+-pregnant+rating:s+order:random&page=0&page_size=20&nsfw=false")).body.posts;
+		let res = (await SA.get("https://blue.catbus.co.uk/api/search?term=dragon+solo+feral+-young+-diaper+-overweight-traditional_media_%5C(artwork%5C)+-pregnant+rating:s+order:random&page=0&page_size=20&nsfw=false")
+			.timeout({
+				response: 5000,
+				deadline: 60000
+			})).body.posts;
+		console.log(res);
 		let md5 = res[0].md5;
 
 		await generateEmbed({
@@ -120,17 +125,17 @@ module.exports.run = async (client, message, args) => {
 	 * @param {string} [animal.title] - Another additional info field
 	 * @returns {Promise<Message>}
 	 */
-	async function generateEmbed (animal) {
-		await message.channel.startTyping();
-		let embed = new (require("discord.js")).MessageEmbed()
-			.setColor("GREEN")
-			.setImage(animal.image);
-		animal.fact ? embed.setFooter(animal.fact) : "";
-		animal.info ? embed.setAuthor(animal.info) : "";
-		animal.title ? embed.setTitle(animal.title) : "";
-		animal.url ? embed.setURL(animal.url) : "";
-		await message.channel.stopTyping(true);
-		return message.channel.send({embed: embed});
+	function generateEmbed (animal) {
+		message.channel.send("Loading...")
+			.then((m) => {
+				let embed = new (require("discord.js")).MessageEmbed()
+					.setColor("GREEN")
+					.setImage(animal.image);
+				animal.fact ? embed.setFooter(animal.fact) : "";
+				animal.info ? embed.setAuthor(animal.info) : "";
+				animal.title ? embed.setTitle(animal.title) : "";
+				animal.url ? embed.setURL(animal.url) : "";
+				return m.edit({ content: "", embed: embed });
+			});
 	}
-}
-;
+};
