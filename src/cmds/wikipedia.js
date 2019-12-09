@@ -36,16 +36,13 @@ module.exports.run = async (client, message, args) => {
 	 * @returns {Promise<void>}
 	 */
 	async function generateEmbed (data) {
-		let embed = new (require("discord.js")).RichEmbed()
+		let embed = new (require("discord.js")).MessageEmbed()
 			.setTitle(data.raw.title)
 			.setDescription((await data.summary()).substring(0, 2048))
 			.setColor("RANDOM")
 			.setURL(data.raw.fullurl);
-
-		console.log(await data.mainImage());
-
 		await data.mainImage ? embed.setImage(await data.mainImage()) : "";
 
-		message.channel.send(embed);
+		await message.channel.send({ embed: embed });
 	}
 };
