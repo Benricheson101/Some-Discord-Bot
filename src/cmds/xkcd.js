@@ -40,6 +40,6 @@ module.exports.run = async (client, message, args) => {
 			.setImage(data.img)
 			.setFooter(`${data.alt} • ${data.year + "-" + ("0" + data.month).slice(-2) + "-" + ("0" + data.day).slice(-2)}`)
 			.setColor("#3485e7");
-		return message.channel.send(embed);
+		return message.channel.send({ embed: embed });
 	}
 };

@@ -42,10 +42,10 @@ module.exports = async (client, message) => {
 			.setFooter(message.content);
 
 		console.error(err);
-		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send(embed);
+		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send({embed: embed});
 		message.channel.send(CONSTANTS.errors.generic);
 		if (CONSTANTS.superUsers.includes(message.author.id)) {
-			message.channel.send(embed);
+			message.channel.send({embed: embed});
 		}
 	}
 };

@@ -46,6 +46,6 @@ module.exports.run = async (client, message, args) => {
 
 		await data.mainImage ? embed.setImage(await data.mainImage()) : "";
 
-		await message.channel.send(embed);
+		await message.channel.send({ embed: embed });
 	}
 };

@@ -59,7 +59,7 @@ module.exports.run = async (client, message, args) => {
 	case ("ping"): {
 		await message.channel.send("Loading...")
 			.then((m) => {
-				m.edit(`Pong! The latency is \`${m.createdTimestamp - message.createdTimestamp}ms\`. The API response time is \`${Math.round(client.ping)}ms\``);
+				m.edit(`Pong! The edit time is \`${m.createdTimestamp - message.createdTimestamp}ms\` and the API response time is \`${Math.round(client.ping)}ms\``);
 			});
 		break;
 	}
@@ -95,7 +95,7 @@ module.exports.run = async (client, message, args) => {
 				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
 				.addField("Result:", `\`\`\`xl\n${clean(evaled)}\`\`\``)
 				.setTimestamp();
-			await message.channel.send(successEmbed);
+			await message.channel.send({ embed: successEmbed });
 
 		} catch (err) {
 			let errorEmbed = new MessageEmbed()
@@ -105,7 +105,7 @@ module.exports.run = async (client, message, args) => {
 				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
 				.addField("Error:", `\`\`\`js\n${clean(err.stack)}\`\`\``)
 				.setTimestamp();
-			await message.channel.send(errorEmbed);
+			await message.channel.send({ embed: errorEmbed });
 		}
 		break;
 	}
@@ -143,7 +143,7 @@ module.exports.run = async (client, message, args) => {
 				.setColor("RANDOM");
 			console.log(msg);
 			if (m) await m.edit(embed);
-			if (logMsg) await logMsg.edit(embed);
+			if (logMsg) await logMsg.edit({ embed: embed });
 		}
 
 		break;
@@ -250,28 +250,29 @@ module.exports.run = async (client, message, args) => {
 		message.channel.send("Loading...")
 			.then((m) => {
 					let date = new Date(commit.commit.author.date);
-					m.edit(new MessageEmbed()
-						.setAuthor(`${message.author.tag}`, message.author.avatarURL())
-						.setColor("RANDOM")
-						.setTimestamp()
-						.addField("Bot Info",
-							`**Library**: [Discord.JS](https://discord.js.org/)` +
-							`\n**Developer**: Ben.#0002` +
-							`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
-							`\n**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})` +
-							`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
-							`\n**UserID**: ${client.user.id}`,
-							true
-						)
-						.addField("Other Info",
-							`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
-							`\n**API Response Time**: ${Math.round(client.ping)}ms` +
-							`\n**Version**: ${(require("../../package.json")).version}` +
-							`\n**Node-ENV**: ${process.env.NODE_ENV}` +
-							`\n**Host**: [Glitch](https://glitch.com/)`,
-							true
-						)
-					);
+					m.edit({
+						embed: new MessageEmbed()
+							.setAuthor(`${message.author.tag}`, message.author.avatarURL())
+							.setColor("RANDOM")
+							.setTimestamp()
+							.addField("Bot Info",
+								`**Library**: [Discord.JS](https://discord.js.org/)` +
+								`\n**Developer**: Ben.#0002` +
+								`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
+								`\n**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})` +
+								`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
+								`\n**UserID**: ${client.user.id}`,
+								true
+							)
+							.addField("Other Info",
+								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
+								`\n**API Response Time**: ${Math.round(client.ping)}ms` +
+								`\n**Version**: ${(require("../../package.json")).version}` +
+								`\n**Node-ENV**: ${process.env.NODE_ENV}` +
+								`\n**Host**: [Glitch](https://glitch.com/)`,
+								true
+							)
+					});
 				}
 			);
 		break;

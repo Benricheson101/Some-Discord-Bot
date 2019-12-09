@@ -1,4 +1,3 @@
-const { MessageEmbed } = require("discord.js");
 module.exports.config = {
 	name: "server",
 	aliases: ["utils"],
