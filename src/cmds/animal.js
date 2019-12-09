@@ -117,11 +117,12 @@ module.exports.run = async (client, message, args) => {
 	 * @param {string} [animal.fact] - Animal fact
 	 * @param {string} [animal.info] - Any additional info (error message, picture credit, etc.)
 	 * @param {string} [animal.url] - Another additional info field
-	 * @returns {Promise<void>}
+	 * @param {string} [animal.title] - Another additional info field
+	 * @returns {Promise<Message>}
 	 */
 	async function generateEmbed (animal) {
 		await message.channel.startTyping();
-		let embed = new (require("discord.js")).RichEmbed()
+		let embed = new (require("discord.js")).MessageEmbed()
 			.setColor("GREEN")
 			.setImage(animal.image);
 		animal.fact ? embed.setFooter(animal.fact) : "";
@@ -129,7 +130,7 @@ module.exports.run = async (client, message, args) => {
 		animal.title ? embed.setTitle(animal.title) : "";
 		animal.url ? embed.setURL(animal.url) : "";
 		await message.channel.stopTyping(true);
-		return message.channel.send(embed);
+		return message.channel.send({embed: embed});
 	}
 }
 ;
