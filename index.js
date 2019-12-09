@@ -59,5 +59,5 @@ client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process
 		app.listen(process.env.PORT);
 setInterval(() => {
 	(require("http")).get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
+}, 140000);
 }

@@ -1,4 +1,3 @@
-const SA = require("superagent");
 const missing = require("../utils/missingAnimals");
 const unsplash = new (require("unsplash-js")).default({
 	accessKey: process.env.UNSPLASHACCESSKEY
@@ -20,8 +19,8 @@ module.exports.run = async (client, message, args) => {
 	case ("foxxo"):
 	case ("fox"): {
 		await generateEmbed({
-			image: (await SA.get("https://randomfox.ca/floof/")).body.image,
-			fact: (await SA.get("https://some-random-api.ml/facts/fox")).body.fact
+			image: (await get("https://randomfox.ca/floof/")).body.image,
+			fact: (await get("https://some-random-api.ml/facts/fox")).body.fact
 		});
 		break;
 	}
@@ -29,8 +28,8 @@ module.exports.run = async (client, message, args) => {
 	case ("puppy"):
 	case ("dog"): {
 		await generateEmbed({
-			image: (await SA.get("https://dog.ceo/api/breeds/image/random")).body.message,
-			fact: (await SA.get("http://dog-api.kinduff.com/api/facts")).body.facts
+			image: (await get("https://dog.ceo/api/breeds/image/random")).body.message,
+			fact: (await get("http://dog-api.kinduff.com/api/facts")).body.facts
 		});
 		break;
 	}
@@ -38,20 +37,20 @@ module.exports.run = async (client, message, args) => {
 	case ("kitten"):
 	case ("cat"): {
 		await generateEmbed({
-			image: (await SA.get("https://aws.random.cat/meow")).body.file,
-			fact: (await SA.get("https://catfact.ninja/fact")).body.fact
+			image: (await get("https://aws.random.cat/meow")).body.file,
+			fact: (await get("https://catfact.ninja/fact")).body.fact
 		});
 		break;
 	}
 	case ("duck"): {
 		await generateEmbed({
-			image: (await SA.get("https://random-d.uk/api/v2/random")).body.url
+			image: (await get("https://random-d.uk/api/v2/random")).body.url
 		});
 		break;
 	}
 	case ("koala"): {
 		await generateEmbed({
-			image: (await SA.get("https://some-random-api.ml/img/koala")).body.link
+			image: (await get("https://some-random-api.ml/img/koala")).body.link
 		});
 		break;
 	}
@@ -73,14 +72,14 @@ module.exports.run = async (client, message, args) => {
 	case ("red-panda"):
 	case ("redpanda"): {
 		await generateEmbed({
-			image: (await SA.get("https://some-random-api.ml/img/red_panda")).body.link
+			image: (await get("https://some-random-api.ml/img/red_panda")).body.link
 		});
 		break;
 	}
 	case ("suspense"):
 	case ("panda"): {
 		await generateEmbed({
-			image: (await SA.get("https://some-random-api.ml/img/panda")).body.link
+			image: (await get("https://some-random-api.ml/img/panda")).body.link
 		});
 		break;
 	}
@@ -91,7 +90,7 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("dragon"): {
-		let res = (await SA.get("https://blue.catbus.co.uk/api/search?term=dragon+solo+feral+-young+-diaper+-overweight-traditional_media_%5C(artwork%5C)+-pregnant+rating:s+order:random&page=0&page_size=20&nsfw=false")).body.posts;
+		let res = (await get("https://blue.catbus.co.uk/api/search?term=dragon+solo+feral+-young+-diaper+-overweight-traditional_media_%5C(artwork%5C)+-pregnant+rating:s+order:random&page=0&page_size=20&nsfw=false")).body.posts;
 		let md5 = res[0].md5;
 
 		await generateEmbed({
@@ -120,17 +119,30 @@ module.exports.run = async (client, message, args) => {
 	 * @param {string} [animal.title] - Another additional info field
 	 * @returns {Promise<Message>}
 	 */
-	async function generateEmbed (animal) {
-		await message.channel.startTyping();
-		let embed = new (require("discord.js")).MessageEmbed()
-			.setColor("GREEN")
-			.setImage(animal.image);
-		animal.fact ? embed.setFooter(animal.fact) : "";
-		animal.info ? embed.setAuthor(animal.info) : "";
-		animal.title ? embed.setTitle(animal.title) : "";
-		animal.url ? embed.setURL(animal.url) : "";
-		await message.channel.stopTyping(true);
-		return message.channel.send({embed: embed});
+	function generateEmbed (animal) {
+		message.channel.send("Loading...")
+			.then((m) => {
+				let embed = new (require("discord.js")).MessageEmbed()
+					.setColor("GREEN")
+					.setImage(animal.image);
+				animal.fact ? embed.setFooter(animal.fact) : "";
+				animal.info ? embed.setAuthor(animal.info) : "";
+				animal.title ? embed.setTitle(animal.title) : "";
+				animal.url ? embed.setURL(animal.url) : "";
+				return m.edit({ content: "", embed: embed });
+			});
 	}
-}
-;
+
+	/**
+	 * Make a GET request to a URL
+	 * @param url {string} - The URL
+	 * @returns {Object}
+	 */
+	function get (url) {
+		return (require("superagent")).get(url)
+			.timeout({
+				response: 5000,
+				deadline: 60000
+			});
+	}
+};
