@@ -142,8 +142,8 @@ module.exports.run = async (client, message, args) => {
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM");
 			console.log(msg);
-			if (m) await m.edit(embed);
-			if (logMsg) await logMsg.edit({ embed: embed });
+			if (m) await m.edit({content: "", embed: embed});
+			if (logMsg) await logMsg.edit({ content: "", embed: embed });
 		}
 
 		break;
@@ -251,6 +251,7 @@ module.exports.run = async (client, message, args) => {
 			.then((m) => {
 					let date = new Date(commit.commit.author.date);
 					m.edit({
+						content: "",
 						embed: new MessageEmbed()
 							.setAuthor(`${message.author.tag}`, message.author.avatarURL())
 							.setColor("RANDOM")
