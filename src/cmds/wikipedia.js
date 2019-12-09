@@ -41,9 +41,6 @@ module.exports.run = async (client, message, args) => {
 			.setDescription((await data.summary()).substring(0, 2048))
 			.setColor("RANDOM")
 			.setURL(data.raw.fullurl);
-
-		console.log(await data.mainImage());
-
 		await data.mainImage ? embed.setImage(await data.mainImage()) : "";
 
 		await message.channel.send({ embed: embed });

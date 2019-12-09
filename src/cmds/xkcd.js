@@ -32,7 +32,6 @@ module.exports.run = async (client, message, args) => {
 	 * @returns {Promise<Message>}
 	 */
 	function generateEmbed (data) {
-		console.log(data);
 		let embed = new (require("discord.js")).MessageEmbed()
 			.setTitle(data.title)
 			.setAuthor(data.num)
