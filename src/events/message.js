@@ -33,7 +33,7 @@ module.exports = async (client, message) => {
 	 * @param {Error} err - The error
 	 */
 	function createError (err) {
-		let embed = new (require("discord.js")).RichEmbed()
+		let embed = new (require("discord.js")).MessageEmbed()
 			.setAuthor("something happened")
 			.setTitle(err.message)
 			.setDescription(`\`\`\`js\n${(err.stack).length >= 2048 ? (err.stack).substring(0, 2000) + " content too long..." : err.stack}\`\`\``)
@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
 			.setFooter(message.content);
 
 		console.error(err);
-		client.channels.find((c) => c.id === (process.env.NODE_ENV === "production" ? CONSTANTS.config.logs : CONSTANTS.config.devLogs)).send(embed);
+		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send(embed);
 		message.channel.send(CONSTANTS.errors.generic);
 		if (CONSTANTS.superUsers.includes(message.author.id)) {
 			message.channel.send(embed);

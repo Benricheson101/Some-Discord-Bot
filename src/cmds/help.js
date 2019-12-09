@@ -7,5 +7,5 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	message.channel.send("idk either tbh");
+	await message.channel.send("idk either tbh");
 };

@@ -1,4 +1,4 @@
-const { RichEmbed } = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const exec = (require("util").promisify((require("child_process").exec)));
 
 module.exports.config = {
@@ -23,9 +23,6 @@ module.exports.run = async (client, message, args) => {
 					.catch((e) => {
 						throw new Error(e);
 					});
-			})
-			.then((m) => {
-				return m.edit("Refresh complete.");
 			});
 		break;
 	}
@@ -52,10 +49,10 @@ module.exports.run = async (client, message, args) => {
 			const newCommand = require(`./${commandName}.js`);
 			message.client.commands.set(newCommand.name, newCommand);
 		} catch (err) {
-			message.channel.send(CONSTANTS.errors.generic);
+			await message.channel.send(CONSTANTS.errors.generic);
 			throw new Error(err);
 		}
-		message.channel.send(`Command \`${commandName}\` was reloaded!`);
+		await message.channel.send(`Command \`${commandName}\` was reloaded!`);
 
 		break;
 	}
@@ -67,6 +64,8 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("eval"): {
+		if (!args) return message.channel.send("");
+
 		/**
 		 * "Clean" text before returning it with eval.
 		 * @param {string} text - Text to be "cleaned"
@@ -89,24 +88,24 @@ module.exports.run = async (client, message, args) => {
 			}
 
 			// TODO: make this shorter
-			let successEmbed = new RichEmbed()
+			let successEmbed = new MessageEmbed()
 				.setAuthor(message.author.username, message.author.icon_url)
 				.setTitle("JavaScript Eval Success!")
 				.setColor("GREEN")
 				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
 				.addField("Result:", `\`\`\`xl\n${clean(evaled)}\`\`\``)
 				.setTimestamp();
-			message.channel.send(successEmbed);
+			await message.channel.send(successEmbed);
 
 		} catch (err) {
-			let errorEmbed = new RichEmbed()
+			let errorEmbed = new MessageEmbed()
 				.setAuthor(message.author.username, message.author.icon_url)
 				.setTitle("JavaScript Eval Error!")
 				.setColor("DARK_RED")
 				.setDescription(`\`\`\`js\n${args.join(" ")}\`\`\``)
 				.addField("Error:", `\`\`\`js\n${clean(err.stack)}\`\`\``)
 				.setTimestamp();
-			message.channel.send(errorEmbed);
+			await message.channel.send(errorEmbed);
 		}
 		break;
 	}
@@ -139,7 +138,7 @@ module.exports.run = async (client, message, args) => {
 		async function generateEmbed (msg) {
 			if (typeof generateEmbed.message == "undefined") generateEmbed.message = [];
 			generateEmbed.message.push(`- ${msg}`);
-			let embed = new RichEmbed()
+			let embed = new MessageEmbed()
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM");
 			console.log(msg);
@@ -150,18 +149,18 @@ module.exports.run = async (client, message, args) => {
 		break;
 	}
 	case ("say"): {
-		if (message.guild.me.hasPermission("MANAGE_MESSAGES")) message.delete();
-		message.channel.send(args.join(" "));
+		if (message.guild.me.permissions.has("MANAGE_MESSAGES")) message.delete();
+		await message.channel.send(args.join(" "));
 		break;
 	}
 	case ("delete"): {
 		if (!args) return message.channel.send(":x: Please provide a message ID for me to delete. Alternatively, provide both a channel ID and message ID to delete from another channel.");
 		if (args.length === 1) {
-			return message.channel.fetchMessage(args[0])
+			return message.channel.message.fetch(args[0])
 				.then((m) => m.delete())
 				.then(message.react("👌"));
 		} else {
-			return client.channels.find((c) => c.id === args[0]).fetchMessage(args[1])
+			return client.channels.find((c) => c.id === args[0]).message.fetch(args[1])
 				.then((m) => m.delete())
 				.then(message.react("👌"));
 		}
@@ -174,7 +173,7 @@ module.exports.run = async (client, message, args) => {
 		switch (subCmd) {
 		case ("cmdlist"):
 		case ("cmds"): {
-			message.channel.send(
+			await message.channel.send(
 				client.commands.filter((cmd) => cmd.config.hidden === false).map((cmd) => {
 					let command = `\`${CONSTANTS.config.prefix + cmd.config.name}\``;
 					let aliases = cmd.config.aliases.length !== 0 ? ` aliases: \`${CONSTANTS.config.prefix + cmd.config.aliases.join(`, ${CONSTANTS.config.prefix}`)}\`` : "";
@@ -184,7 +183,60 @@ module.exports.run = async (client, message, args) => {
 			break;
 		}
 		default: {
-			message.channel.send(":x: Incorrect usage.");
+			await message.channel.send(":x: Incorrect usage.");
+			break;
+		}
+		}
+		break;
+	}
+	case ("set"): {
+		if (args.length < 2) return message.channel.send(":x: Incorrect usage.");
+		let subCmd = args.shift();
+		args.slice(1);
+		switch (subCmd) {
+		case ("status"): {
+			await message.channel.send("Setting...")
+				.then((m) => {
+					client.user.setStatus(args[0]);
+					return m;
+				})
+				.then((m) => {
+					return m.edit("Done!");
+				});
+			break;
+		}
+		case ("activity"): {
+			await message.channel.send("Setting...")
+				.then((m) => {
+					client.user.setActivity({
+						name: args.join(" "),
+						type: client.user.presence.activity.type
+					});
+					return m;
+				})
+				.then((m) => {
+					return m.edit("Done!");
+				});
+			break;
+		}
+		case ("acttype"):
+		case ("activitytype"): {
+			if (!["PLAYING", "WATCHING", "LISTENING"].includes(args[0].toUpperCase())) return message.channel.send(":x: Incorrect usage.");
+			await message.channel.send("Setting...")
+				.then((m) => {
+					client.user.setActivity({
+						name: client.user.presence.activity.name,
+						type: args[0].toUpperCase()
+					});
+					return m;
+				})
+				.then((m) => {
+					return m.edit("Done!");
+				});
+			break;
+		}
+		default: {
+			await message.channel.send(":x: Incorrect usage");
 			break;
 		}
 		}
@@ -198,8 +250,8 @@ module.exports.run = async (client, message, args) => {
 		message.channel.send("Loading...")
 			.then((m) => {
 					let date = new Date(commit.commit.author.date);
-					m.edit(new RichEmbed()
-						.setAuthor(`${message.author.tag}`, message.author.avatarURL)
+					m.edit(new MessageEmbed()
+						.setAuthor(`${message.author.tag}`, message.author.avatarURL())
 						.setColor("RANDOM")
 						.setTimestamp()
 						.addField("Bot Info",

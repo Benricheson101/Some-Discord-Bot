@@ -29,11 +29,11 @@ module.exports.run = async (client, message, args) => {
 	 * @param {number} data.num - The comic number
 	 * @param {string} data.img - The image link
 	 * @param {string} data.alt - The alt-text
-	 * @returns {Promise<void>}
+	 * @returns {Promise<Message>}
 	 */
 	function generateEmbed (data) {
 		console.log(data);
-		let embed = new (require("discord.js")).RichEmbed()
+		let embed = new (require("discord.js")).MessageEmbed()
 			.setTitle(data.title)
 			.setAuthor(data.num)
 			.setURL(`https://xkcd.com/${data.num}`)
