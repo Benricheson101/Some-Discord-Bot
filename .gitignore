@@ -106,3 +106,4 @@ dist
 # IDE Files
 .idea
 .idea/*
+/src/utils/logger-setup.js

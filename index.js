@@ -11,6 +11,7 @@ const client = new Discord.Client({
 // -- Global Variables --
 global.CONSTANTS = require("./src/utils/constants");
 global.fetch = require("node-fetch"); // Unsplash-js requires this to be global for some reason
+global.logger = require("./src/utils/logger");
 
 // ----- Command and Event Handler -----
 
@@ -31,33 +32,33 @@ fs.readdir("./src/cmds/", (err, files) => {
 });
 
 // -- Events Handler --
-fs.readdir("./src/events/", (err, files) => {
-	if (err) console.error(err);
-	for (const name in files) {
-		const event = files[name];
-		if (!event.endsWith(".js")) return;
-		let eventFunc = require(`./src/events/${event}`);
-		let eventName = event.split(".")[0];
-		client.on(eventName, eventFunc.bind(null, client));
-		console.log(`[E] Successfully loaded ${event}`);
-	}
-});
+		fs.readdir("./src/events/", (err, files) => {
+			if (err) console.error(err);
+			for (const name in files) {
+				const event = files[name];
+				if (!event.endsWith(".js")) return;
+				let eventFunc = require(`./src/events/${event}`);
+				let eventName = event.split(".")[0];
+				client.on(eventName, eventFunc.bind(null, client));
+				console.log(`[E] Successfully loaded ${event}`);
+			}
+		});
 
 // ----- Start the bot! -----
 
-client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process.env.DEV_TOKEN)
-	.catch(console.error);
+		client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process.env.DEV_TOKEN)
+			.catch(console.error);
 
 // ----- Glitch Stuff -----
 
 // -- Don't Sleep Please --
-	if (process.env.NODE_ENV === "production") {
-		const app = (require("express"))();
-		app.get("/", (request, response) => {
-			response.sendStatus(200);
-		});
-		app.listen(process.env.PORT);
-setInterval(() => {
-	(require("http")).get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 140000);
+		if (process.env.NODE_ENV === "production") {
+			const app = (require("express"))();
+			app.get("/", (request, response) => {
+				response.sendStatus(200);
+			});
+			app.listen(process.env.PORT);
+			setInterval(() => {
+				(require("http")).get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+			}, 140000);
 }

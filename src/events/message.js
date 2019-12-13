@@ -21,6 +21,9 @@ module.exports = async (client, message) => {
 
 	try {
 		cmd.run(client, message, args)
+			.then(async () => {
+				logger.cmd(client, message);
+			})
 			.catch((err) => {
 				createError(err);
 			});
@@ -42,10 +45,10 @@ module.exports = async (client, message) => {
 			.setFooter(message.content);
 
 		console.error(err);
-		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send({embed: embed});
+		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send({ embed: embed });
 		message.channel.send(CONSTANTS.errors.generic);
 		if (CONSTANTS.superUsers.includes(message.author.id)) {
-			message.channel.send({embed: embed});
+			message.channel.send({ embed: embed });
 		}
 	}
 };
