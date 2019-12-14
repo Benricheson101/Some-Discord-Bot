@@ -142,7 +142,7 @@ module.exports.run = async (client, message, args) => {
 				.setDescription(`\`\`\`md\n${generateEmbed.message.join("\n")}\`\`\``)
 				.setColor("RANDOM");
 			console.log(msg);
-			if (m) await m.edit({content: "", embed: embed});
+			if (m) await m.edit({ content: "", embed: embed });
 			if (logMsg) await logMsg.edit({ content: "", embed: embed });
 		}
 

@@ -15,7 +15,7 @@ module.exports = async (client, message) => {
 
 	if (cmd.config.ownerOnly === true) {
 		if (!(CONSTANTS.superUsers.includes(message.author.id))) {
-			logger.permErr(client, message);
+			await logger.permErr(message);
 			return message.channel.send(CONSTANTS.errors.noperms);
 		}
 	}
@@ -23,14 +23,12 @@ module.exports = async (client, message) => {
 	try {
 		cmd.run(client, message, args)
 			.then(async () => {
-				await logger.cmd(client, message);
+				await logger.cmd(message);
 			})
 			.catch(async (err) => {
-				await logger.cmdErr(client, message);
 				createError(err);
 			});
 	} catch (err) {
-		await logger.cmdErr(client, message);
 		createError(err);
 	}
 
@@ -39,7 +37,10 @@ module.exports = async (client, message) => {
 	 * @param {Error} err - The error
 	 */
 	function createError (err) {
-		let embed = new (require("discord.js")).MessageEmbed()
+		console.error(err);
+		logger.cmdErr(message, err);
+
+		/*let embed = new (require("discord.js")).MessageEmbed()
 			.setAuthor("something happened")
 			.setTitle(err.message)
 			.setDescription(`\`\`\`js\n${(err.stack).length >= 2048 ? (err.stack).substring(0, 2000) + " content too long..." : err.stack}\`\`\``)
@@ -47,11 +48,10 @@ module.exports = async (client, message) => {
 			.setTimestamp()
 			.setFooter(message.content);
 
-		console.error(err);
-		client.channels.find((c) => c.id === (CONSTANTS.config.logs)).send({ embed: embed });
+		client.channels.find((c) => c.id === CONSTANTS.config.logs).send({ embed: embed });
 		message.channel.send(CONSTANTS.errors.generic);
 		if (CONSTANTS.superUsers.includes(message.author.id)) {
 			message.channel.send({ embed: embed });
-		}
+		}*/
 	}
 };
