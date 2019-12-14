@@ -15,6 +15,7 @@ module.exports = async (client, message) => {
 
 	if (cmd.config.ownerOnly === true) {
 		if (!(CONSTANTS.superUsers.includes(message.author.id))) {
+			logger.permErr(client, message);
 			return message.channel.send(CONSTANTS.errors.noperms);
 		}
 	}
@@ -22,12 +23,14 @@ module.exports = async (client, message) => {
 	try {
 		cmd.run(client, message, args)
 			.then(async () => {
-				logger.cmd(client, message);
+				await logger.cmd(client, message);
 			})
-			.catch((err) => {
+			.catch(async (err) => {
+				await logger.cmdErr(client, message);
 				createError(err);
 			});
 	} catch (err) {
+		await logger.cmdErr(client, message);
 		createError(err);
 	}
 

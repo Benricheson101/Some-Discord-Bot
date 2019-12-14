@@ -1,7 +1,5 @@
 const wait = (require("util")).promisify(setTimeout);
 module.exports = async (client) => {
-	console.log(`${client.user.username} is now online!`);
-
 	await client.user.setPresence({
 		activity: {
 			name: "Starting up..",
@@ -11,6 +9,9 @@ module.exports = async (client) => {
 	});
 
 	await wait(1000);
+
+	await console.log(`${client.user.username} is now online, serving ${client.users.size} users in ${client.guilds.size} guilds!`);
+	await logger.ready(client);
 
 	await client.user.setPresence({
 		activity: {
