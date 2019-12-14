@@ -9,7 +9,7 @@ const development = {
 	],
 	config: {
 		prefix: "..",
-		Logs: "652312009681010718"
+		logs: "652288757755543623"
 	}
 };
 const production = {

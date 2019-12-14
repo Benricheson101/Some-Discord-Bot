@@ -10,7 +10,7 @@ module.exports = async (client) => {
 
 	await wait(1000);
 
-	await console.log(`${client.user.username} is now online, serving ${client.users.size} users in ${client.guilds.size} guilds!`);
+	await console.log(`[I] [${process.env.NODE_ENV}] ${client.user.tag} is now online\n	Users: ${client.users.size}\n	Guilds: ${client.guilds.size}\n	Channels: ${client.channels.size}`);
 	await logger.ready(client);
 
 	await client.user.setPresence({
