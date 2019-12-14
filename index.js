@@ -11,7 +11,7 @@ const client = new Discord.Client({
 // -- Global Variables --
 global.CONSTANTS = require("./src/utils/constants");
 global.fetch = require("node-fetch"); // Unsplash-js requires this to be global for some reason
-global.logger = require("./src/utils/logger");
+global.logger = require("./src/utils/logger.js");
 
 // ----- Command and Event Handler -----
 

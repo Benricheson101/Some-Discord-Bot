@@ -1,3 +1,3 @@
 module.exports = async (client, guild) => {
-	await logger.join(client, guild);
+	await logger.leave(client, guild);
 };

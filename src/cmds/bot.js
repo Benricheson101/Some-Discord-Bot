@@ -267,7 +267,7 @@ module.exports.run = async (client, message, args) => {
 							)
 							.addField("Other Info",
 								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
-								`\n**API Response Time**: ${Math.round(client.ping)}ms` +
+								`\n**API Response Time**: ${Math.round(client.ws.ping)}ms` +
 								`\n**Version**: ${(require("../../package.json")).version}` +
 								`\n**Node-ENV**: ${process.env.NODE_ENV}` +
 								`\n**Host**: [Glitch](https://glitch.com/)`,
