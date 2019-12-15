@@ -257,20 +257,20 @@ module.exports.run = async (client, message, args) => {
 							.setColor("RANDOM")
 							.setTimestamp()
 							.addField("Bot Info",
-								`**Library**: [Discord.JS](https://discord.js.org/)` +
-								`\n**Developer**: Ben.#0002` +
-								`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
-								`\n**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})` +
-								`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
-								`\n**UserID**: ${client.user.id}`,
+								`**Library**: [Discord.JS](https://discord.js.org/)
+								**Developer**: Ben.#0002
+								**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})
+								**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})
+								**Uptime:** ${(require("ms"))(client.uptime)}
+								**UserID**: ${client.user.id}`,
 								true
 							)
 							.addField("Other Info",
-								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
-								`\n**API Response Time**: ${Math.round(client.ws.ping)}ms` +
-								`\n**Version**: ${(require("../../package.json")).version}` +
-								`\n**Node-ENV**: ${process.env.NODE_ENV}` +
-								`\n**Host**: [Glitch](https://glitch.com/)`,
+								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms
+								**API Response Time**: ${Math.round(client.ws.ping)}ms
+								**Version**: ${(require("../../package.json")).version}
+								**Node-ENV**: ${process.env.NODE_ENV}
+								**Host**: [Glitch](https://glitch.com/)`,
 								true
 							)
 					});

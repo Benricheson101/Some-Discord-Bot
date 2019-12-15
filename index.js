@@ -50,7 +50,19 @@ client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process
 	.catch(console.error);
 
 // ----- Handle stuff -----
-process.once("SIGINT", logger.exit.bind(null, { exit: true }));
+
+process.once("beforeExit", (exitCode) => {
+	console.log(exitCode);
+	if (exitCode === "SIGINT") return;
+	logger.exit.bind(exitCode, { exit: true });
+});
+process.once("exit", (exitCode) => {
+	console.log("Exiting with code: " + exitCode);
+});
+/*process.once("SIGINT", (exitCode) => {
+
+	logger.exit.bind("SIGINT", { exit: true })
+});*/
 
 // ----- Glitch Stuff -----
 
