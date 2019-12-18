@@ -5,6 +5,7 @@ module.exports.config = {
 	aliases: ["cfg", "config"],
 	ownerOnly: false,
 	guildOnly: false,
+	hidden: false,
 	permissions: "32" // manage server
 };
 
