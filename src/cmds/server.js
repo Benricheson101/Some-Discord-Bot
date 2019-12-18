@@ -3,7 +3,8 @@ module.exports.config = {
 	aliases: ["utils"],
 	ownerOnly: false,
 	guildOnly: true,
-	hidden: false
+	hidden: false,
+	permissions: 32 // manage server
 };
 
 module.exports.run = async (client, message, args) => {
@@ -52,6 +53,7 @@ module.exports.run = async (client, message, args) => {
 	}
 	case ("gen"):
 	case ("generate"): {
+		if (!message.member.permissions.has(1073741824)) return message.channel.send(CONSTANTS.errors.noperms);
 		let subCmd = args.shift();
 		args.slice(1);
 		switch (subCmd) {
@@ -69,10 +71,10 @@ module.exports.run = async (client, message, args) => {
 					return `<a:${emoji.name + ":" + emoji.id}>`;
 				});
 			await message.channel.send(
-				`**Static Emojis**:\n` +
-				(staticEmojis.length !== 0 ? staticEmojis : "None") +
-				`\n **Animated Emojis**:\n` +
-				(animatedEmojis.length !== 0 ? animatedEmojis : "None")
+				`**Static Emojis**:
+				${(staticEmojis.length !== 0 ? staticEmojis : "None")}
+				**Animated Emojis**:
+				${animatedEmojis.length !== 0 ? animatedEmojis : "None"}`
 			);
 			break;
 		}

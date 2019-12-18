@@ -5,8 +5,10 @@ require("dotenv").config();
 const Discord = require("discord.js");
 const fs = require("fs");
 const client = new Discord.Client({
-	disableEveryone: true
+	disableEveryone: true,
+	fetchAllMembers: true
 });
+const mongoose = require("mongoose");
 
 // -- Global Variables --
 global.CONSTANTS = require("./src/utils/constants");
@@ -18,6 +20,26 @@ global.logger = require("./src/utils/logger.js");
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.events = new Discord.Collection();
+
+// ----- Database -----
+
+// -- Connect --
+mongoose.connect("mongodb://localhost/settings", {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+	.catch((err) => {
+		throw new Error(err);
+	});
+
+// -- Do Stuff --
+let db = mongoose.connection;
+db.on("error", (error) => {
+	console.error.bind(console, "Connection error: ");
+});
+db.once("open", () => {
+	console.info("[I] Connected to MongoDB!");
+});
 
 // -- Command Handler --
 fs.readdir("./src/cmds/", (err, files) => {
@@ -50,7 +72,23 @@ client.login(process.env.NODE_ENV === "production" ? process.env.TOKEN : process
 	.catch(console.error);
 
 // ----- Handle stuff -----
-process.once("SIGINT", logger.exit.bind(null, { exit: true }));
+
+process.once("beforeExit", (exitCode) => {
+	console.log(exitCode);
+	if (exitCode === "SIGINT") return;
+	logger.exit.bind(exitCode, { exit: true });
+});
+process.once("exit", (exitCode) => {
+	console.log("Exiting with code: " + exitCode);
+});
+/*process.once("SIGINT", (exitCode) => {
+
+	logger.exit.bind("SIGINT", { exit: true })
+});*/
+
+/*process.on("unhandledRejection", (error) => {
+	console.error("unhandledRejection", error);
+});*/
 
 // ----- Glitch Stuff -----
 

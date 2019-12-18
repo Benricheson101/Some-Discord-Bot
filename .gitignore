@@ -107,4 +107,4 @@ dist
 .idea
 .idea/*
 /src/utils/logger-setup.js
-/todo.txt
+/todo.js

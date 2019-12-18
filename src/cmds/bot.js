@@ -6,7 +6,8 @@ module.exports.config = {
 	aliases: [],
 	ownerOnly: true,
 	guildOnly: false,
-	hidden: true
+	hidden: true,
+	permissions: "0"
 };
 
 module.exports.run = async (client, message, args) => {
@@ -43,10 +44,13 @@ module.exports.run = async (client, message, args) => {
 
 		if (!command) return message.channel.send(`There is no command with name or alias \`${commandName}\`, ${message.author}!`);
 
+		console.log(require.cache);
 		delete require.cache[require.resolve(`./${commandName}.js`)];
 
+		await message.channel.send("deleted cached command");
+
 		try {
-			const newCommand = require(`./${commandName}.js`);
+			const newCommand = require(`../cmds/${commandName}.js`);
 			message.client.commands.set(newCommand.name, newCommand);
 		} catch (err) {
 			await message.channel.send(CONSTANTS.errors.generic);
@@ -127,7 +131,7 @@ module.exports.run = async (client, message, args) => {
 			})
 			.then(async () => {
 				await generateEmbed("Shutting down");
-				return process.exit(0); // Stop the bot; Glitch should automatically restart the bot after it is shut down
+				return process.exit(0); // Stop the bot
 			});
 
 		/**
@@ -257,20 +261,20 @@ module.exports.run = async (client, message, args) => {
 							.setColor("RANDOM")
 							.setTimestamp()
 							.addField("Bot Info",
-								`**Library**: [Discord.JS](https://discord.js.org/)` +
-								`\n**Developer**: Ben.#0002` +
-								`\n**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})` +
-								`\n**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})` +
-								`\n**Uptime:** ${(require("ms"))(client.uptime)}` +
-								`\n**UserID**: ${client.user.id}`,
+								`**Library**: [Discord.JS](https://discord.js.org/)
+								**Developer**: Ben.#0002
+								**GitHub Repo**: [GitHub](${(require("../../package.json")).homepage})
+								**Latest Commit**: [${date.toISOString().replace("T", " ").split(".")[0]}](${commit.html_url})
+								**Uptime:** ${(require("ms"))(client.uptime)}
+								**UserID**: ${client.user.id}`,
 								true
 							)
 							.addField("Other Info",
-								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms` +
-								`\n**API Response Time**: ${Math.round(client.ws.ping)}ms` +
-								`\n**Version**: ${(require("../../package.json")).version}` +
-								`\n**Node-ENV**: ${process.env.NODE_ENV}` +
-								`\n**Host**: [Glitch](https://glitch.com/)`,
+								`**Edit Time**: ${m.createdTimestamp - message.createdTimestamp}ms
+								**API Response Time**: ${Math.round(client.ws.ping)}ms
+								**Version**: ${(require("../../package.json")).version}
+								**Node-ENV**: ${process.env.NODE_ENV}
+								**Host**: [Glitch](https://glitch.com/)`,
 								true
 							)
 					});
