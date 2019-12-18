@@ -3,7 +3,8 @@ module.exports.config = {
 	aliases: [],
 	ownerOnly: true,
 	guildOnly: false,
-	hidden: true
+	hidden: true,
+	permissions: "0"
 };
 
 module.exports.run = async (client, message, args) => {
