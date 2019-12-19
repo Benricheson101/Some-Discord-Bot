@@ -24,7 +24,7 @@ client.events = new Discord.Collection();
 // ----- Database -----
 
 // -- Connect --
-mongoose.connect("mongodb://localhost/settings", {
+mongoose.connect(process.env.MONGO, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 })
@@ -84,10 +84,6 @@ process.once("exit", (exitCode) => {
 /*process.once("SIGINT", (exitCode) => {
 
 	logger.exit.bind("SIGINT", { exit: true })
-});*/
-
-/*process.on("unhandledRejection", (error) => {
-	console.error("unhandledRejection", error);
 });*/
 
 // ----- Glitch Stuff -----

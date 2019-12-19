@@ -10,7 +10,8 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
-	if (args.length < 2) return message.channel.send(":x: Incorrect usage.");
+	//if (args.length < 2) return message.channel.send(":x: Incorrect usage.");
+	if (!message.member.permissions.has(32)) return message.channel.send(CONSTANTS.errors.noperms);
 	let setting = args[0];
 	args = args.slice(1);
 
@@ -20,9 +21,16 @@ module.exports.run = async (client, message, args) => {
 		if (err) throw new Error(err);
 		switch (setting) {
 		case ("prefix"): {
+			if (args.length < 2) return message.channel.send(":x: Incorrect usage.");
 			guild.prefix = args.join(" ");
 			guild.save();
 			await successEmbed("prefix", args.join(" "));
+			break;
+		}
+		case ("show"):
+		default: {
+			console.log(guild);
+			await message.channel.send(guild);
 			break;
 		}
 		}

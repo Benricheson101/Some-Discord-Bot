@@ -19,11 +19,10 @@ module.exports = async (client, message) => {
 		const cmd = client.commands.get(command) || client.commands.find((c) => c.config.aliases && c.config.aliases.includes(command));
 		if (!cmd) return;
 
-		// if the user does not have the permission											in a text channel						and they aren't a superuser
-
-		if (!message.member.permissions.has(cmd.config.permissions) && message.channel.type === "text" && !CONSTANTS.superUsers.includes(message.author.id)) {
+//TODO: Make this work
+		/*if (!message.member.permissions.has(cmd.config.permissions) && message.channel.type === "text" && !CONSTANTS.superUsers.includes(message.author.id)) {
 			return message.reply(CONSTANTS.errors.noperms);
-		}
+		}*/
 
 		if (cmd.config.guildOnly && message.channel.type !== "text") {
 			return message.reply(CONSTANTS.errors.guildOnly);

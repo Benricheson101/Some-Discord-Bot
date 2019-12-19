@@ -8,6 +8,7 @@ module.exports.config = {
 };
 
 module.exports.run = async (client, message, args) => {
+	if (!message.member.permissions.has(32)) return message.channel.send(CONSTANTS.errors.noperms);
 	let cmd = args.shift();
 	args.slice(1);
 	switch (cmd) {
