@@ -71,11 +71,7 @@ module.exports.run = async (client, message, args) => {
 				.map((emoji) => {
 					return `<a:${emoji.name + ":" + emoji.id}>`;
 				});
-			await message.channel.send(
-				`**Static Emojis**:
-				${(staticEmojis.length !== 0 ? staticEmojis : "None")}
-				**Animated Emojis**:
-				${animatedEmojis.length !== 0 ? animatedEmojis : "None"}`
+			await message.channel.send(`**Static Emojis**:\n${(staticEmojis.length !== 0 ? staticEmojis : "None")}\n**Animated Emojis**:\n${animatedEmojis.length !== 0 ? animatedEmojis : "None"}`
 			);
 			break;
 		}
